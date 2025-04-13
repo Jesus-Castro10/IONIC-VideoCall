@@ -8,6 +8,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import {SharedModule} from "../shared/shared.module";
 import {UserService} from "./services/user.service";
+import {ContactService} from "./services/contact.service";
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,8 @@ import {UserService} from "./services/user.service";
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    UserService
+    UserService,
+    ContactService
   ]
 })
 export class CoreModule { }

@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalle de Contacto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="ion-padding">
+    <ion-card-header>
+      <ion-card-title>{{ contact?.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Teléfono:</strong> {{ contact?.phone }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" (click)="openEditionModal()">Editar contacto</ion-button>
+</ion-content>

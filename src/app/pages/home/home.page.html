@@ -10,4 +10,27 @@
       <ion-title size="large">home</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+    <ion-fab-button>
+      <ion-icon name="chevron-forward-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="end">
+      <ion-fab-button (click)="openCreateModal()">
+        <ion-icon name="document"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="color-palette"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="globe"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  <ion-list>
+    @for (contact of contacts; track contact.uid) {
+    <ion-item [button]="true" (click)="goToDetail(contact.uid)">
+      {{ contact.name }}
+    </ion-item>
+    }
+  </ion-list>
 </ion-content>

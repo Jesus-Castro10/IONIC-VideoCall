@@ -2,14 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {IonicModule} from "@ionic/angular";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ContactFormComponent} from "./components/contact-form/contact-form.component";
+import {LoaderService} from "./services/loader.service";
 
 const EXPORTS = [CommonModule, IonicModule, ReactiveFormsModule, FormsModule];
+const COMPONENTS = [ContactFormComponent];
 
 @NgModule({
-  declarations: [],
+  declarations: [...COMPONENTS],
   imports: [
     ...EXPORTS,
   ],
-  exports: [...EXPORTS]
+  exports: [...EXPORTS,...COMPONENTS],
+  providers: [LoaderService]
 })
 export class SharedModule { }

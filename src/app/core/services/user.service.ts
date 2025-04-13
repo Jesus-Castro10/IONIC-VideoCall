@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Firestore, doc, setDoc, getDoc, updateDoc, deleteDoc, collection, getDocs } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 import {User} from "../../interfaces/user";
+import {Auth} from "@angular/fire/auth";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private firestore = inject(Firestore);
+  private auth = inject(Auth)
 
   async create(user: User) {
     const userRef = doc(this.firestore, 'users', user.uid);
@@ -32,5 +34,9 @@ export class UserService {
     const colRef = collection(this.firestore, 'users');
     const snap = await getDocs(colRef);
     return snap.docs.map(doc => doc.data() as User);
+  }
+
+  getCurrentUser(){
+    return this.auth.currentUser;
   }
 }
