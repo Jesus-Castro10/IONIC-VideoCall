@@ -2,13 +2,13 @@
   <div class="register-container">
     <ion-card class="register-card">
       <ion-card-header>
-        <ion-card-title class="ion-text-center">Crear cuenta</ion-card-title>
+        <ion-card-title class="ion-text-center">Sign Up</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
           <ion-item>
-            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-label position="floating">Email</ion-label>
             <ion-input
               type="email"
               formControlName="email"
@@ -17,7 +17,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Nombre</ion-label>
+            <ion-label position="floating">Name</ion-label>
             <ion-input
               type="text"
               formControlName="name"
@@ -26,7 +26,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Apellido</ion-label>
+            <ion-label position="floating">Lastname</ion-label>
             <ion-input
               type="text"
               formControlName="lastname"
@@ -35,7 +35,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Telefono</ion-label>
+            <ion-label position="floating">Phone</ion-label>
             <ion-input
               type="number"
               formControlName="phone"
@@ -44,7 +44,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Contraseña</ion-label>
+            <ion-label position="floating">Password</ion-label>
             <ion-input
               type="password"
               formControlName="password"
@@ -53,7 +53,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Confirmar contraseña</ion-label>
+            <ion-label position="floating">Confirm password</ion-label>
             <ion-input
               type="password"
               formControlName="confirmPassword"
@@ -67,12 +67,12 @@
             class="ion-margin-top"
             [disabled]="registerForm.invalid"
           >
-            Registrarse
+            Signup
           </ion-button>
         </form>
 
         <div class="ion-text-center ion-margin-top">
-          <a (click)="goToLogin()">¿Ya tienes cuenta? Inicia sesión</a>
+          <a (click)="goToLogin()">Already have an account? Sign in</a>
         </div>
       </ion-card-content>
     </ion-card>

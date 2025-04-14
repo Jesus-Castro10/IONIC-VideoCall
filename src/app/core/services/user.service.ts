@@ -35,8 +35,4 @@ export class UserService {
     const snap = await getDocs(colRef);
     return snap.docs.map(doc => doc.data() as User);
   }
-
-  getCurrentUser(){
-    return this.auth.currentUser;
-  }
 }

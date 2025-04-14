@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import {Contact} from "../../../interfaces/contact";
 
+type Actions = 'create' | 'update' | 'read' | 'delete';
+
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
@@ -10,7 +12,7 @@ import {Contact} from "../../../interfaces/contact";
 })
 export class ContactFormComponent implements OnInit {
   @Input() initialData?: Contact;
-  @Input() action: 'crear' | 'editar' | 'ver' = 'crear';
+  @Input() action: Actions = 'create';
   @Input() showDelete = false;
 
   @Output() save = new EventEmitter<Contact>();
@@ -33,32 +35,32 @@ export class ContactFormComponent implements OnInit {
       this.form.patchValue(this.initialData);
     }
 
-    if (this.action === 'ver') {
+    if (this.action === 'read') {
       this.form.disable();
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.form.valid) {
       this.save.emit(this.form.value);
-      this.modalCtrl.dismiss(this.form.value);
+      await this.modalCtrl.dismiss(this.form.value);
     }
   }
 
-  onDelete() {
+  async onDelete() {
     this.delete.emit();
-    this.modalCtrl.dismiss({ deleted: true });
+    await this.modalCtrl.dismiss({ deleted: true });
   }
 
-  cancel() {
-    this.modalCtrl.dismiss(null);
+  async cancel() {
+    await this.modalCtrl.dismiss(null);
   }
 
   get actionLabel() {
     switch (this.action) {
-      case 'editar': return 'Actualizar';
-      case 'ver': return 'Cerrar';
-      default: return 'Guardar';
+      case 'update': return 'Update';
+      case 'read': return 'Close';
+      default: return 'Save';
     }
   }
 }

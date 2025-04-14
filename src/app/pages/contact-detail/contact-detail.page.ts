@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Contact} from "../../interfaces/contact";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ContactService} from "../../core/services/contact.service";
-import {Auth} from "@angular/fire/auth";
-import {ModalController} from "@ionic/angular";
-import {ContactFormComponent} from "../../shared/components/contact-form/contact-form.component";
 import {LoaderService} from "../../shared/services/loader.service";
+import {ModalService} from "../../shared/services/modal.service";
+import {AuthService} from "../../core/services/auth-service.service";
 
 @Component({
   selector: 'app-contact-detail',
@@ -23,9 +22,14 @@ export class ContactDetailPage implements OnInit {
     private route: ActivatedRoute,
     private contactService: ContactService,
     private router: Router,
-    private modalCtrl: ModalController,
-    private loaderService: LoaderService
-  ) {}
+    private loaderService: LoaderService,
+    private modalService: ModalService,
+    private authService: AuthService,
+  ) {
+    this.authService.getCurrentUser().then(value => {
+      this.uid = value?.uid || ''
+    })
+  }
 
   async ngOnInit() {
     await this.loadContact()
@@ -33,34 +37,30 @@ export class ContactDetailPage implements OnInit {
 
   async loadContact() {
     this.contactId = this.route.snapshot.paramMap.get('id')!;
-    await this.loaderService.show("Loading...");
-    this.contactService.get("yk96KDr8nSgrcoySjhAfSmuJDTe2",this.contactId).subscribe(contact => {
+    await this.loaderService.show();
+    this.contactService.get(this.uid,this.contactId).subscribe(contact => {
       this.contact = contact;
       this.loaderService.hide();
     })
   }
+
   async openEditionModal() {
-    const modal = await this.modalCtrl.create({
-      component: ContactFormComponent,
-      componentProps: {
-        initialData: this.contact,
-        action: 'editar',
-        showDelete: true
-      }
+    const result = await this.modalService.openModal({
+      action: 'update',
+      data: this.contact,
+      showDelete: true
     });
-
-    modal.onDidDismiss().then(async res => {
-      if (res.data?.deleted) {
-        await this.loaderService.show();
-        await this.contactService.delete("yk96KDr8nSgrcoySjhAfSmuJDTe2", this.contactId);
-        this.router.navigate(['/home']).then(() => this.loaderService.hide());
-      } else if (res.data) {
-        console.log(res.data);
-        await this.contactService.update("yk96KDr8nSgrcoySjhAfSmuJDTe2", this.contactId, res.data);
-      }
-    });
-
-    await modal.present();
+    await this.loaderService.show();
+    if (this.isDeletedResponse(result)) {
+      await this.contactService.delete(this.uid, this.contactId);
+    } else if (result) {
+      await this.contactService.update(this.uid, this.contactId, result);
+    }
+    await this.router.navigate(['/home']);
+    await this.loaderService.hide();
   }
 
+  isDeletedResponse(result: any): result is { deleted: true } {
+    return result && result.deleted === true;
+  }
 }

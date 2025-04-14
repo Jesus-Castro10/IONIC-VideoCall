@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
-import { getAuth } from 'firebase/auth';
+import {ToastService} from "../../shared/services/toast.service";
+import {AuthService} from "../services/auth-service.service";
 
 @Injectable({ providedIn: 'root' })
 export class LoginBlockGuard implements CanActivate {
-  private auth = inject(Auth);
   private router = inject(Router);
+  private toastService = inject(ToastService);
+  private authService = inject(AuthService);
 
   async canActivate(): Promise<boolean> {
-    const user = this.auth.currentUser || getAuth().currentUser;
+    const user = await this.authService.getCurrentUser();
 
     if (user && user.emailVerified) {
-      console.log("Usuario logueado")
-      this.router.navigate(['/home']);
+      this.toastService.presentToast("You cannot access this view","danger").then(
+        () => this.router.navigate(['/home'])
+      )
       return false;
     }
 

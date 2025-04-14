@@ -6,6 +6,8 @@ import {
   User,
   Auth
 } from '@angular/fire/auth';
+import {firstValueFrom} from "rxjs";
+import {authState} from "rxfire/auth";
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +32,9 @@ export class AuthService {
 
   logout(){
     return this.auth.signOut();
+  }
+
+  getCurrentUser(){
+    return firstValueFrom(authState(this.auth))
   }
 }

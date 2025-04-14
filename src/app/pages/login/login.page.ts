@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 import {AuthService} from "../../core/services/auth-service.service";
-import { LoadingController } from '@ionic/angular';
+import {LoaderService} from "../../shared/services/loader.service";
+import {ToastService} from "../../shared/services/toast.service";
 
 @Component({
   selector: 'app-login',
@@ -18,8 +18,8 @@ export class LoginPage {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController
+    private toastService: ToastService,
+    private loaderService: LoaderService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -31,48 +31,31 @@ export class LoginPage {
     const { email, password } = this.loginForm.value;
 
     try {
-      await this.showLoading();
+      await this.loaderService.show("Logging in...");
       const user = await this.authService.login(email, password);
 
       if (!user.emailVerified) {
-        this.loadingCtrl.dismiss().then(() => this.showToast('Verifica tu correo electrónico antes de continuar'));
-        await this.authService.logout(); // Cerramos la sesión
+        this.loaderService.hide().then(
+          () => this.toastService.presentToast("Please check your email before continuing.","danger")
+        )
+        await this.authService.logout();
         return;
       }
-
-      this.loadingCtrl.dismiss().then(
-        () => this.showToast("Login exitoso")
+      this.router.navigate(['/home']).then(
+        () => {
+          this.loaderService.hide()
+          this.loginForm.reset()
+        }
       );
-
-      this.router.navigate(['/home']);
     } catch (error: any) {
-      this.loadingCtrl.dismiss().then(
-        () => this.showToast('Credenciales incorrectas o error de conexión.')
+      this.loaderService.hide().then(
+        () => this.toastService.presentToast("Incorrect credentials or connection error","danger")
       );
     }
   }
 
-
-  goToRegister() {
-    this.router.navigate(['/register']);
+  async goToRegister() {
+    await this.router.navigate(['/register']);
   }
 
-  async showToast(message: string) {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 3000,
-      color: 'danger',
-      position: 'bottom',
-    });
-    await toast.present();
-  }
-
-  async showLoading() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Loading...',
-      duration: 3000,
-    });
-
-    await loading.present();
-  }
 }

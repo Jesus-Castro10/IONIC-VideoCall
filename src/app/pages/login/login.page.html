@@ -2,13 +2,13 @@
   <div class="login-container">
     <ion-card class="login-card">
       <ion-card-header>
-        <ion-card-title class="ion-text-center">Iniciar sesión</ion-card-title>
+        <ion-card-title class="ion-text-center">Log in</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
           <ion-item>
-            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-label position="floating">Email</ion-label>
             <ion-input
               type="email"
               formControlName="email"
@@ -17,7 +17,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Contraseña</ion-label>
+            <ion-label position="floating">Password</ion-label>
             <ion-input
               type="password"
               formControlName="password"
@@ -31,12 +31,12 @@
             class="ion-margin-top"
             [disabled]="loginForm.invalid"
           >
-            Iniciar sesión
+            Login
           </ion-button>
         </form>
 
         <div class="ion-text-center ion-margin-top">
-          <a (click)="goToRegister()">¿No tienes cuenta? Regístrate</a>
+          <a (click)="goToRegister()">Don't have an account? Sign up</a>
         </div>
       </ion-card-content>
     </ion-card>
