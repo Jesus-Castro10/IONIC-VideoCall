@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {LoaderService} from "../../shared/services/loader.service";
 import {AuthService} from "../../core/services/auth-service.service";
 import {ModalService} from "../../shared/services/modal.service";
+import {UserService} from "../../core/services/user.service";
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,7 @@ export class HomePage implements OnInit {
     private router: Router,
     private loaderService: LoaderService,
     private authService: AuthService,
-    private modalService: ModalService
+    private modalService: ModalService,
   ) {
     this.authService.getCurrentUser().then(value => {
       this.uid = value?.uid || ''
@@ -46,7 +47,8 @@ export class HomePage implements OnInit {
     const result = await this.modalService.openModal({ action: 'create' });
 
     if (result) {
-      await this.contactService.create(this.uid, result as Contact);
+      const contact = result as Contact;
+      await this.contactService.create(this.uid, contact.phone);
     }
   }
 

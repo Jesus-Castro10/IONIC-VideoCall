@@ -25,7 +25,7 @@ export class ContactFormComponent implements OnInit {
     private modalCtrl: ModalController
   ) {
     this.form = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', ],
       phone: ['', Validators.required],
     });
   }
