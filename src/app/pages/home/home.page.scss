@@ -1,0 +1,45 @@
+.contact-list-page {
+  ion-list {
+    margin-top: 20px;
+    padding: 0 10px;
+  }
+
+  ion-item {
+    border-radius: 12px;
+    margin-bottom: 15px;
+    background: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
+
+    ion-label {
+      h2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #222;
+        margin: 0;
+      }
+
+      p {
+        font-size: 14px;
+        color: #666;
+        margin-top: 4px;
+      }
+    }
+
+    ion-button {
+      --padding-start: 0;
+      --padding-end: 0;
+      --padding-top: 0;
+      --padding-bottom: 0;
+      --border-radius: 50%;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .no-contacts {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 16px;
+    color: #777;
+  }
+}

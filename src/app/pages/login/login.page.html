@@ -1,44 +1,45 @@
-<ion-content [fullscreen]="true" class="ion-padding login-bg">
+<ion-content class="login-page" [scrollY]="false" fullscreen>
   <div class="login-container">
-    <ion-card class="login-card">
-      <ion-card-header>
-        <ion-card-title class="ion-text-center">Log in</ion-card-title>
-      </ion-card-header>
+    <div class="login-header">
+      <h1>Welcome Back</h1>
+      <p>Please sign in to continue</p>
+    </div>
 
-      <ion-card-content>
-        <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input
-              type="email"
-              formControlName="email"
-              required
-            ></ion-input>
-          </ion-item>
+    <form class="login-form" (ngSubmit)="onLogin()" [formGroup]="loginForm">
+      <ion-item lines="none" class="input-wrapper">
+        <ion-input
+          type="email"
+          placeholder="Email Address"
+          formControlName="email"
+          required
+        ></ion-input>
+      </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input
-              type="password"
-              formControlName="password"
-              required
-            ></ion-input>
-          </ion-item>
+      <ion-item lines="none" class="input-wrapper">
+        <ion-input
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+          required
+        ></ion-input>
+      </ion-item>
 
-          <ion-button
-            expand="block"
-            type="submit"
-            class="ion-margin-top"
-            [disabled]="loginForm.invalid"
-          >
-            Login
-          </ion-button>
-        </form>
+      <div class="forgot-password">
+        <a href="#">Forgot Password?</a>
+      </div>
 
-        <div class="ion-text-center ion-margin-top">
-          <a (click)="goToRegister()">Don't have an account? Sign up</a>
-        </div>
-      </ion-card-content>
-    </ion-card>
+      <ion-button
+        expand="block"
+        type="submit"
+        class="login-button"
+        [disabled]="loginForm.invalid"
+      >
+        Sign In
+      </ion-button>
+
+      <div class="signup-text">
+        Don't have an account? <ion-button (click)="goToRegister()">Sign Up</ion-button>
+      </div>
+    </form>
   </div>
 </ion-content>

@@ -25,10 +25,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/contact-detail/contact-detail.module').then( m => m.ContactDetailPageModule)
   },
   {
-    path: 'concept-test',
-    loadChildren: () => import('./pages/concept-test/concept-test.module').then( m => m.ConceptTestPageModule)
-  },
-  {
     path: 'incoming-call',
     loadChildren: () => import('./pages/incoming-call/incoming-call.module').then( m => m.IncomingCallPageModule)
   }

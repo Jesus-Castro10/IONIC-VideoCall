@@ -1,8 +1,7 @@
-import {Component, OnDestroy} from '@angular/core';
-import {NavController, Platform} from "@ionic/angular";
-import {Capacitor} from "@capacitor/core";
-import {App} from "@capacitor/app";
-import {LocalNotifications} from "@capacitor/local-notifications";
+import { Component, OnDestroy } from '@angular/core';
+import { NavController, Platform } from '@ionic/angular';
+import { Capacitor } from '@capacitor/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-incoming-call',
@@ -10,25 +9,26 @@ import {LocalNotifications} from "@capacitor/local-notifications";
   styleUrls: ['./incoming-call.page.scss'],
   standalone: false
 })
-export class IncomingCallPage implements OnDestroy{
+export class IncomingCallPage implements OnDestroy {
 
   meetingId: string = '';
   callerName: string = '';
-  private listener: any;
+
+  private callEndedListener: any;
   private backButtonListener: any;
 
-  constructor(private navCtrl: NavController, private platform: Platform) {}
+  constructor(
+    private navCtrl: NavController,
+    private platform: Platform
+  ) {}
 
   ionViewWillEnter() {
     const navigation = history.state;
     this.meetingId = navigation.meetingId || '';
     this.callerName = navigation.callerName || 'Llamada entrante';
-    this.startListeningBackButton();
-  }
 
-  async rejectCall() {
-    await this.navCtrl.navigateRoot('/home');
-    //Enviar notificacion para que cancele todo
+    this.listenForCallEnded();
+    this.startListeningBackButton();
   }
 
   async acceptCall() {
@@ -38,34 +38,44 @@ export class IncomingCallPage implements OnDestroy{
     }
 
     try {
-      const result = await (window as any).Capacitor.Plugins.MyCustomPlugin.startCall({ meetingId: this.meetingId, userName: this.callerName });
-      console.log('Lanzamiento exitoso:', result);
+      console.log('🚀 Aceptando llamada:', this.meetingId, this.callerName);
+      await (window as any).Capacitor.Plugins.MyCustomPlugin.startCall({
+        meetingId: this.meetingId,
+        userName: this.callerName
+      });
     } catch (error) {
-      console.error('Error al lanzar la llamada:', error);
+      console.error('❌ Error al lanzar la llamada:', error);
     }
   }
 
-  startListeningAppState() {
-    this.listener = App.addListener('appStateChange', (state) => {
-      console.log('🌀 AppState changed:', state);
-
-      if (state.isActive) {
-        console.log('📲 Volvió del plugin. Redirigiendo al Home.');
-        this.navCtrl.navigateRoot('/home');
-      }
-    });
+  async rejectCall() {
+    console.log('❌ Rechazando llamada...');
+    await this.navCtrl.navigateRoot('/home');
+    // Aquí podrías notificar al servidor que rechazó si quieres
   }
 
-  startListeningBackButton() {
+  private listenForCallEnded() {
+    if ((window as any).Capacitor?.Plugins?.MyCustomPlugin) {
+      console.log('📞 Escuchando evento callEnded...');
+      this.callEndedListener = (window as any).Capacitor.Plugins.MyCustomPlugin.addListener('callEnded', async () => {
+        console.log('📞 Llamada finalizada, regresando al Home');
+        await this.navCtrl.navigateRoot('/home');
+      });
+    } else {
+      console.error('❌ Plugin MyCustomPlugin no disponible.');
+    }
+  }
+
+  private startListeningBackButton() {
     this.backButtonListener = this.platform.backButton.subscribeWithPriority(10, async () => {
-      console.log('↩️ Usuario presionó atrás en llamada entrante');
+      console.log('↩️ Usuario presionó botón atrás durante llamada entrante');
 
       await LocalNotifications.schedule({
         notifications: [
           {
             id: 1001,
-            title: '📞 Llamada entrante',
-            body: `${this.callerName} te está llamando`,
+            title: '📞 Llamada entrante perdida',
+            body: `${this.callerName} intentó llamarte`,
             schedule: { at: new Date(Date.now() + 100) },
             actionTypeId: 'CALL_REMINDER',
             extra: {
@@ -77,14 +87,19 @@ export class IncomingCallPage implements OnDestroy{
         ]
       });
 
-      // Ir al Home
-      this.navCtrl.navigateRoot('/home');
+      await this.navCtrl.navigateRoot('/home');
     });
   }
 
   ngOnDestroy() {
-    if (this.listener) {
-      this.listener.remove();
+    console.log('🧹 Limpiando listeners en IncomingCallPage');
+
+    if (this.callEndedListener) {
+      this.callEndedListener.remove();
+    }
+
+    if (this.backButtonListener) {
+      this.backButtonListener.unsubscribe();
     }
   }
 }
