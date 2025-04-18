@@ -5,6 +5,8 @@ import {ContactService} from "../../core/services/contact.service";
 import {LoaderService} from "../../shared/services/loader.service";
 import {ModalService} from "../../shared/services/modal.service";
 import {AuthService} from "../../core/services/auth-service.service";
+import {UserService} from "../../core/services/user.service";
+import {User} from "../../interfaces/user";
 
 @Component({
   selector: 'app-contact-detail',
@@ -16,7 +18,7 @@ export class ContactDetailPage implements OnInit {
 
   contactId: string = '';
   uid: string = '';
-  contact: Contact | undefined;
+  contact!: User | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,6 +27,7 @@ export class ContactDetailPage implements OnInit {
     private loaderService: LoaderService,
     private modalService: ModalService,
     private authService: AuthService,
+    private userService: UserService,
   ) {
     this.authService.getCurrentUser().then(value => {
       this.uid = value?.uid || ''
@@ -38,10 +41,8 @@ export class ContactDetailPage implements OnInit {
   async loadContact() {
     this.contactId = this.route.snapshot.paramMap.get('id')!;
     await this.loaderService.show();
-    this.contactService.get(this.uid,this.contactId).subscribe(contact => {
-      this.contact = contact;
-      this.loaderService.hide();
-    })
+    this.contact = await this.userService.get(this.contactId)
+    await this.loaderService.hide();
   }
 
   async openEditionModal() {
@@ -52,6 +53,7 @@ export class ContactDetailPage implements OnInit {
     });
     await this.loaderService.show();
     if (this.isDeletedResponse(result)) {
+      console.log("uid " , this.uid , " contactId " , this.contactId);
       await this.contactService.delete(this.uid, this.contactId);
     } else if (result) {
       await this.contactService.update(this.uid, this.contactId, result);

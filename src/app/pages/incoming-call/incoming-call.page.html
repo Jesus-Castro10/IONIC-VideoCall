@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>test</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding video-call-screen">
+  <div class="caller-info">
+    <!--    <img alt="Avatar" class="caller-avatar" />-->
+    <h2 class="caller-name">Llamada entrante de Juan Pérez</h2>
+    <p class="call-status">Videollamada</p>
+  </div>
+
+  <div class="call-buttons">
+    <ion-button expand="block" color="success" shape="round" size="large" (click)="acceptCall()">
+      <ion-icon name="videocam" slot="start"></ion-icon>
+      Aceptar
+    </ion-button>
+
+    <ion-button expand="block" color="danger" shape="round" size="large" (click)="rejectCall()">
+      <ion-icon name="close" slot="start"></ion-icon>
+      Rechazar
+    </ion-button>
+  </div>
+</ion-content>
+

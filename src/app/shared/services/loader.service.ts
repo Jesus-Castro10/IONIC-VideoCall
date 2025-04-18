@@ -14,7 +14,8 @@ export class LoaderService {
     if (!this.loading) {
       this.loading = await this.loadingCtrl.create({
         message,
-        spinner: 'crescent'
+        spinner: 'crescent',
+        cssClass: 'custom-loader',
       });
       await this.loading.present();
     }

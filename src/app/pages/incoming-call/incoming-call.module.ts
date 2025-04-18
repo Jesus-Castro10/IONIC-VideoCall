@@ -4,16 +4,16 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TestPageRoutingModule } from './test-routing.module';
+import { IncomingCallPageRoutingModule } from './incoming-call-routing.module';
 
-import { TestPage } from './test.page';
+import { IncomingCallPage } from './incoming-call.page';
 import {SharedModule} from "../../shared/shared.module";
 
 @NgModule({
   imports: [
     SharedModule,
-    TestPageRoutingModule
+    IncomingCallPageRoutingModule
   ],
-  declarations: [TestPage]
+  declarations: [IncomingCallPage]
 })
-export class TestPageModule {}
+export class IncomingCallPageModule {}

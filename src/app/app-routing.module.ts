@@ -5,7 +5,7 @@ import {AuthGuard} from "@angular/fire/auth-guard";
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'test',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -25,8 +25,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/contact-detail/contact-detail.module').then( m => m.ContactDetailPageModule)
   },
   {
-    path: 'test',
-    loadChildren: () => import('./pages/test/test.module').then( m => m.TestPageModule)
+    path: 'concept-test',
+    loadChildren: () => import('./pages/concept-test/concept-test.module').then( m => m.ConceptTestPageModule)
+  },
+  {
+    path: 'incoming-call',
+    loadChildren: () => import('./pages/incoming-call/incoming-call.module').then( m => m.IncomingCallPageModule)
   }
 ];
 

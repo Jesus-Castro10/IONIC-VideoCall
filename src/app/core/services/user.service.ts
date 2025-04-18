@@ -24,10 +24,10 @@ export class UserService {
     await setDoc(userRef, user);
   }
 
-  async get(uid: string): Promise<User | null> {
+  async get(uid: string): Promise<User | undefined> {
     const userRef = doc(this.firestore, 'users', uid);
     const snap = await getDoc(userRef);
-    return snap.exists() ? (snap.data() as User) : null;
+    return snap.exists() ? (snap.data() as User) : undefined;
   }
 
   async update(uid: string, data: Partial<Omit<User, 'uid' | 'email'>>) {
@@ -56,5 +56,10 @@ export class UserService {
       return { uid: doc.id, ...doc.data() } as User;
     }
     return null;
+  }
+
+  async addUserToken(user: any, token: any): Promise<void> {
+    const userRef = doc(this.firestore, `users/${user.uid}`);
+    await updateDoc(userRef, {token: token});
   }
 }

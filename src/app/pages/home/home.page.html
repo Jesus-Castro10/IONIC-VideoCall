@@ -30,6 +30,7 @@
     @for (contact of contacts; track contact.uid) {
     <ion-item [button]="true" (click)="goToDetail(contact.uid)">
       {{ contact.name }}
+      {{ contact.phone }}
     </ion-item>
     }
   </ion-list>

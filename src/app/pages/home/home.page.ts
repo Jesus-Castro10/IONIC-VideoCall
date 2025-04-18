@@ -7,6 +7,7 @@ import {LoaderService} from "../../shared/services/loader.service";
 import {AuthService} from "../../core/services/auth-service.service";
 import {ModalService} from "../../shared/services/modal.service";
 import {UserService} from "../../core/services/user.service";
+import {User} from "../../interfaces/user";
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ import {UserService} from "../../core/services/user.service";
 })
 export class HomePage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
-  contacts!: Contact[];
+  contacts!: User[];
   uid!: string;
 
   constructor(
@@ -37,10 +38,9 @@ export class HomePage implements OnInit {
 
   async getContacts(){
     await this.loaderService.show("Loading contacts...");
-    this.contactService.getAll(this.uid).subscribe((contacts: Contact[]) => {
-      this.contacts = contacts;
-      this.loaderService.hide()
-    })
+    this.contacts = await this.contactService.getAll(this.uid)
+    console.log("contacts", this.contacts)
+    await this.loaderService.hide()
   }
 
   async openCreateModal() {

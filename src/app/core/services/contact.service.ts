@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   Firestore,
   collection,
-  collectionData,
   doc,
   addDoc,
   docData,
@@ -36,29 +35,23 @@ export class ContactService {
     return await addDoc(colRef, contact);
   }
 
-  getAll(uid: string): Observable<Contact[]> {
-    const colRef = this.getContactsCollectionRef(uid);
-    return collectionData(colRef, { idField: 'uid' }) as Observable<Contact[]>;
-  }
+  async getAll(uid: string): Promise<User[]> {
+    const contactRef = this.getContactsCollectionRef(uid);
+    const contactSnapshots = await getDocs(contactRef);
 
-  // async getAll(uid: string): Promise<User[]> {
-  //   const contactRef = collection(this.firestore, `users/${uid}/contacts`);
-  //   const contactSnapshots = await getDocs(contactRef);
-  //
-  //   const results: User[] = [];
-  //
-  //   for (const docSnap of contactSnapshots.docs) {
-  //     console.log("docSnap", docSnap);
-  //     const contactUid = docSnap.data()['uid'];
-  //     const userRef = doc(this.firestore, `users/${contactUid}`);
-  //     const userSnap = await getDoc(userRef);
-  //     if (userSnap.exists()) {
-  //       results.push({ uid: userSnap.id, ...userSnap.data() } as User);
-  //     }
-  //   }
-  //
-  //   return results;
-  // }
+    const results: User[] = [];
+
+    for (const docSnap of contactSnapshots.docs) {
+      const contactUid = docSnap.data()['user_uid'];
+      const userRef = doc(this.firestore, `users/${contactUid}`);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        results.push({ uid: userSnap.id, ...userSnap.data() } as User);
+      }
+    }
+
+    return results;
+  }
 
   get(uid: string, contactId: string): Observable<Contact | undefined> {
     const contactRef = doc(this.firestore, `users/${uid}/contacts/${contactId}`);
@@ -72,6 +65,7 @@ export class ContactService {
 
   async delete(uid: string, contactId: string) {
     const contactRef = doc(this.firestore, `users/${uid}/contacts/${contactId}`);
+    console.log(contactRef);
     return await deleteDoc(contactRef);
   }
 }

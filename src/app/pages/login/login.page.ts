@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {AuthService} from "../../core/services/auth-service.service";
 import {LoaderService} from "../../shared/services/loader.service";
 import {ToastService} from "../../shared/services/toast.service";
+import {UserService} from "../../core/services/user.service";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginPage {
     private authService: AuthService,
     private router: Router,
     private toastService: ToastService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private userService: UserService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,6 +47,10 @@ export class LoginPage {
         () => {
           this.loaderService.hide()
           this.loginForm.reset()
+          const token = localStorage.getItem('fcm');
+          if (token) {
+            this.userService.addUserToken(user, token);
+          }
         }
       );
     } catch (error: any) {
