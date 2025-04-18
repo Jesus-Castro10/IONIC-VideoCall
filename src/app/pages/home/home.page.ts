@@ -8,6 +8,7 @@ import {AuthService} from "../../core/services/auth-service.service";
 import {ModalService} from "../../shared/services/modal.service";
 import {UserService} from "../../core/services/user.service";
 import {User} from "../../interfaces/user";
+import {CallService} from "../../core/services/call.service";
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,8 @@ export class HomePage implements OnInit {
     private loaderService: LoaderService,
     private authService: AuthService,
     private modalService: ModalService,
+    private callService: CallService,
+
   ) {
     this.authService.getCurrentUser().then(value => {
       this.uid = value?.uid || ''
@@ -64,7 +67,7 @@ export class HomePage implements OnInit {
     )
   }
 
-  callContact(phone:any){
-
+  async callContact(phone:any){
+    await this.callService.joinCall(phone);
   }
 }

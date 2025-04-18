@@ -43,6 +43,7 @@ export class LoginPage {
         await this.authService.logout();
         return;
       }
+
       this.router.navigate(['/home']).then(
         () => {
           this.loaderService.hide()

@@ -1,85 +1,43 @@
 import { Injectable } from '@angular/core';
-import { Capacitor } from '@capacitor/core';
-import { PushNotifications } from '@capacitor/push-notifications';
-import { LocalNotifications } from '@capacitor/local-notifications';
-import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
-import { Auth } from '@angular/fire/auth';
-import {NavController} from "@ionic/angular";
-import {AuthService} from "./auth-service.service";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
+import {firstValueFrom} from "rxjs";
+import {User} from "../../interfaces/user";
+import {UserService} from "./user.service";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class NotificationService {
 
+  private url = environment.notifications;
+
   constructor(
-    private firestore: Firestore,
-    private auth: Auth,
-    private navCtrl: NavController,
-    private authService: AuthService
+    private http: HttpClient,
+    private userService: UserService,
   ) {}
 
-  async initPush() {
-    if (Capacitor.getPlatform() === 'web') {
-      console.warn('PushNotifications no está implementado en web.');
-      return;
+  async sendNotification( meetingId: any, name: any, uidUserFrom: string) {
+    const user = await this.userService.get(uidUserFrom)
+    const token = user?.token as string;
+    const title = "Incoming call";
+    const body = name + " is calling you"
+    const userFrom = user?.name as string;
+    const payload = {
+      token,
+      title,
+      body,
+      meetingId,
+      name,
+      userFrom
+    };
+    console.log("Payload " + JSON.stringify(payload));
+    try {
+      console.log('🚀 Enviando notificación al servidor:', payload);
+      await firstValueFrom(this.http.post(this.url, payload));
+      console.log('✅ Notificación enviada correctamente.');
+    } catch (error) {
+      console.error('❌ Error al enviar notificación:', error);
     }
-
-    const permStatus = await PushNotifications.checkPermissions();
-    if (permStatus.receive !== 'granted') {
-      await PushNotifications.requestPermissions();
-    }
-
-    await PushNotifications.register();
-
-    await PushNotifications.addListener('registration', async (token) => {
-      console.log('📲 Token FCM recibido:', token.value);
-      const user = this.auth.currentUser;
-      if (user) {
-        const userRef = doc(this.firestore, `users/${user.uid}`);
-        await updateDoc(userRef, {token: token.value});
-      } else {
-        localStorage.setItem('fcm', token.value);
-      }
-    });
-
-    await PushNotifications.addListener('registrationError', (err) => {
-      console.error('❌ Error de registro FCM:', err);
-    });
-
-    await PushNotifications.addListener('pushNotificationReceived', (notification) => {
-      console.log('🔔 Notificación recibida:', JSON.stringify(notification));
-
-      const meetingId = notification.data?.meetingId;
-      const name = notification.data?.name;
-      const user = this.auth.currentUser;
-      console.log("user of fcm : " + JSON.stringify(user))
-      if (user != null) {
-        if (meetingId && name) {
-          this.navCtrl.navigateForward(['/incoming-call'], {
-            state: {
-              meetingId: meetingId,
-              callerName: name
-            }
-          });
-        }
-      }
-    });
-
-    await LocalNotifications.addListener('localNotificationActionPerformed', (event) => {
-      console.log('➡️ Acción en notificación local:', event);
-
-      const meetingId = event.notification?.extra?.meetingId;
-      const callerName = event.notification?.extra?.callerName;
-
-      if (meetingId && callerName) {
-        console.log('📲 Volviendo a pantalla de llamada entrante');
-
-        this.navCtrl.navigateForward(['/incoming-call'], {
-          state: {
-            meetingId: meetingId,
-            callerName: callerName
-          }
-        });
-      }
-    });
   }
 }

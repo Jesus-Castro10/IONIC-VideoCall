@@ -9,6 +9,9 @@ import { environment } from 'src/environments/environment';
 import {SharedModule} from "../shared/shared.module";
 import {UserService} from "./services/user.service";
 import {ContactService} from "./services/contact.service";
+import {AuthService} from "./services/auth-service.service";
+import {NotificationService} from "./services/notification.service";
+import {CallService} from "./services/call.service";
 
 @NgModule({
   declarations: [],
@@ -20,7 +23,10 @@ import {ContactService} from "./services/contact.service";
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     UserService,
-    ContactService
+    ContactService,
+    AuthService,
+    NotificationService,
+    CallService
   ]
 })
 export class CoreModule { }
