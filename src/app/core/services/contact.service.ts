@@ -4,26 +4,31 @@ import {
   collection,
   doc,
   addDoc,
-  docData,
   updateDoc,
   deleteDoc,
   getDocs,
   getDoc,
 } from '@angular/fire/firestore';
-import { inject } from '@angular/core';
+import { from } from 'rxjs';
 import { CollectionReference, DocumentData } from 'firebase/firestore';
 import { Contact } from '../../interfaces/contact';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserService } from './user.service';
 import { User } from '../../interfaces/user';
+import {ToastService} from "../../shared/services/toast.service";
+import {ContactDto} from "../../interfaces/contact-dto";
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
-  private firestore = inject(Firestore);
-  private userService = inject(UserService);
 
-  private contactsSubject = new BehaviorSubject<User[]>([]);
-  contacts$ = this.contactsSubject.asObservable(); // 👉 para suscribirse desde HomePage o donde sea
+  constructor(
+    private firestore: Firestore,
+    private userService: UserService,
+    private toastService: ToastService,) {
+  }
+
+  private contactsSubject = new BehaviorSubject<ContactDto[]>([]);
+  contacts$ = this.contactsSubject.asObservable();
 
   private getContactsCollectionRef(uid: string): CollectionReference<DocumentData> {
     return collection(this.firestore, `users/${uid}/contacts`);
@@ -32,48 +37,94 @@ export class ContactService {
   async create(uid: string, phone: string) {
     const user = await this.userService.findUserByPhoneNumber(phone);
     if (user === null) {
-      console.log('Es nulo');
+      await this.toastService.presentToast("User doesn't exist",'danger');
       return;
     }
     const contact = { user_uid: user.uid };
     const colRef = this.getContactsCollectionRef(uid);
     await addDoc(colRef, contact);
-    await this.loadAll(uid); // 👉 después de crear, recargar contactos
+    await this.loadAll(uid);
   }
 
   async loadAll(uid: string): Promise<void> {
     const contactRef = this.getContactsCollectionRef(uid);
     const contactSnapshots = await getDocs(contactRef);
 
-    const results: User[] = [];
+    const results: ContactDto[] = [];
 
     for (const docSnap of contactSnapshots.docs) {
       const contactUid = docSnap.data()['user_uid'];
       const userRef = doc(this.firestore, `users/${contactUid}`);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
-        results.push({ uid: userSnap.id, ...userSnap.data() } as User);
+        const userData = userSnap.data();
+        const contactDTO: ContactDto = {
+          uid: docSnap.id,
+          user: {
+            uid: userSnap.id,
+            ...userData
+          } as User
+        };
+        results.push(contactDTO);
       }
     }
 
-    this.contactsSubject.next(results); // 👉 Actualizamos el estado reactivo
+    this.contactsSubject.next(results);
   }
 
-  get(uid: string, contactId: string): Observable<Contact | undefined> {
+  get(uid: string, contactId: string): Observable<ContactDto | undefined> {
     const contactRef = doc(this.firestore, `users/${uid}/contacts/${contactId}`);
-    return docData(contactRef, { idField: 'uid' }) as Observable<Contact | undefined>;
+    return from(this.buildContactDto(contactRef));
+  }
+
+  private async buildContactDto(contactRef: any): Promise<ContactDto | undefined> {
+    const contactSnap = await getDoc(contactRef);
+    if (!contactSnap.exists()) {
+      return undefined;
+    }
+
+    const contactData = contactSnap.data() as { [key: string]: any };
+    const userUid = contactData['user_uid'];
+
+    const userRef = doc(this.firestore, `users/${userUid}`);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      return undefined;
+    }
+
+    const userData = userSnap.data();
+    return {
+      uid: contactSnap.id,
+      user: {
+        uid: userSnap.id,
+        ...userData
+      } as User
+    };
   }
 
   async update(uid: string, contactId: string, data: Partial<Contact>) {
     const contactRef = doc(this.firestore, `users/${uid}/contacts/${contactId}`);
     await updateDoc(contactRef, data);
-    await this.loadAll(uid); // 👉 después de actualizar, recargar
+    await this.loadAll(uid);
   }
 
   async delete(uid: string, contactId: string) {
-    const contactRef = doc(this.firestore, `users/${uid}/contacts/${contactId}`);
-    console.log(contactRef);
-    await deleteDoc(contactRef);
-    await this.loadAll(uid); // 👉 después de eliminar, recargar
+    try {
+      const contactRef = doc(this.firestore, `users/${uid}/contacts/${contactId}`);
+      const snapshot = await getDoc(contactRef);
+
+      if (!snapshot.exists()) {
+        console.log('El contacto no existe.');
+        return;
+      }
+
+      await deleteDoc(contactRef);
+      console.log('Contacto eliminado exitosamente.');
+    } catch (error) {
+      console.error('Error eliminando contacto:', error);
+    }
   }
+
+
 }

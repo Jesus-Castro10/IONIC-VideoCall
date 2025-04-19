@@ -4,10 +4,8 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   User,
-  Auth
+  Auth, sendPasswordResetEmail
 } from '@angular/fire/auth';
-import {firstValueFrom} from "rxjs";
-import {authState} from "rxfire/auth";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +32,23 @@ export class AuthService {
     return this.auth.signOut();
   }
 
-  getCurrentUser(){
-    return firstValueFrom(authState(this.auth))
+  async getCurrentUser(): Promise<User | null> {
+    const user = this.auth.currentUser;
+
+    if (user) {
+      return user;
+    } else {
+      return new Promise((resolve) => {
+        const unsubscribe = this.auth.onAuthStateChanged(currentUser => {
+          unsubscribe();
+          resolve(currentUser);
+        });
+      });
+    }
+  }
+
+  async resetPassword(email: string): Promise<void> {
+    await sendPasswordResetEmail(this.auth, email);
+    console.log('Password reset email sent');
   }
 }

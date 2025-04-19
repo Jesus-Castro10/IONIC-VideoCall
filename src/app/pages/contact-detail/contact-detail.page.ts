@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {Contact} from "../../interfaces/contact";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ContactService} from "../../core/services/contact.service";
-import {LoaderService} from "../../shared/services/loader.service";
-import {ModalService} from "../../shared/services/modal.service";
-import {AuthService} from "../../core/services/auth-service.service";
-import {UserService} from "../../core/services/user.service";
-import {User} from "../../interfaces/user";
+import { Contact } from '../../interfaces/contact';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ContactService } from '../../core/services/contact.service';
+import { LoaderService } from '../../shared/services/loader.service';
+import { ModalService } from '../../shared/services/modal.service';
+import { AuthService } from '../../core/services/auth-service.service';
+import { UserService } from '../../core/services/user.service';
+import { User } from '../../interfaces/user';
+import { firstValueFrom } from 'rxjs';
+import {ContactDto} from "../../interfaces/contact-dto";
 
 @Component({
   selector: 'app-contact-detail',
@@ -15,10 +17,9 @@ import {User} from "../../interfaces/user";
   standalone: false
 })
 export class ContactDetailPage implements OnInit {
-
   contactId: string = '';
   uid: string = '';
-  contact!: User | undefined;
+  contact!: ContactDto | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,22 +28,31 @@ export class ContactDetailPage implements OnInit {
     private loaderService: LoaderService,
     private modalService: ModalService,
     private authService: AuthService,
-    private userService: UserService,
   ) {
     this.authService.getCurrentUser().then(value => {
-      this.uid = value?.uid || ''
-    })
+      this.uid = value?.uid || '';
+    });
   }
 
   async ngOnInit() {
-    await this.loadContact()
+    await this.loadContact();
   }
 
   async loadContact() {
     this.contactId = this.route.snapshot.paramMap.get('id')!;
     await this.loaderService.show();
-    this.contact = await this.userService.get(this.contactId)
-    await this.loaderService.hide();
+
+    this.contactService.get(this.uid, this.contactId).subscribe({
+      next: async (contact) => {
+        console.log(contact);
+        this.contact = contact;
+        await this.loaderService.hide();
+      },
+      error: async (error) => {
+        console.error('Error cargando contacto:', error);
+        await this.loaderService.hide();
+      }
+    });
   }
 
   async openEditionModal() {
@@ -53,7 +63,7 @@ export class ContactDetailPage implements OnInit {
     });
     await this.loaderService.show();
     if (this.isDeletedResponse(result)) {
-      console.log("uid " , this.uid , " contactId " , this.contactId);
+      console.log("uid " + this.contactId, "uid", JSON.stringify(this.contactService.get(this.uid,this.contactId)));
       await this.contactService.delete(this.uid, this.contactId);
     } else if (result) {
       await this.contactService.update(this.uid, this.contactId, result);

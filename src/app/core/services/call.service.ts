@@ -37,20 +37,21 @@ export class CallService {
 
   async joinCall(phone: string) {
     const userToCall = await this.userService.findUserByPhoneNumber(phone);
-    const userAuth = await this.authService.getCurrentUser()
-    console.log("userToCall", userToCall);
-    console.log("userAuth", userAuth);
+    const uidCurrent = await this.authService.getCurrentUser()
+    const userAuth = await this.userService.get(uidCurrent?.uid)
+    console.log("userToCall", JSON.stringify(userToCall));
+
     if (!userAuth || !userToCall) {
       await this.toastService.presentToast("Error to init call",'danger')
     }
     const meetingId = this.generateId();
-    await this.launchCall(meetingId,userAuth?.displayName);
+    await this.launchCall(meetingId,userAuth?.name);
     // @ts-ignore
     await this.notificationService.sendNotification(meetingId,userAuth?.displayName,userToCall.uid)
   }
 
   generateId(): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_+-=|;:,.';
     return Array.from({ length: 10 }, () =>
       characters[Math.floor(Math.random() * characters.length)]
     ).join('');

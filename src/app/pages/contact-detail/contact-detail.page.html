@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="contact-detail-header">
   <ion-toolbar>
     <ion-title class="text-center">Detalle de Contacto</ion-title>
   </ion-toolbar>
@@ -6,13 +6,15 @@
 
 <ion-content class="contact-detail-page">
   <div class="container">
-    <div class="contact-card">
-      <h2>{{ contact?.name }} {{ contact?.lastname }}</h2>
-      <p><strong>Teléfono:</strong> {{ contact?.phone }}</p>
-    </div>
+    @if (contact) {
+      <div class="contact-card">
+        <h2>{{ contact.user.name }} {{ contact.user.lastname }}</h2>
+        <p><strong>Teléfono:</strong> {{ contact.user.phone }}</p>
+      </div>
 
-    <ion-button expand="block" class="edit-button" (click)="openEditionModal()">
-      Editar contacto
-    </ion-button>
+      <ion-button expand="block" class="edit-button" (click)="openEditionModal()">
+        Editar contacto
+      </ion-button>
+    }
   </div>
 </ion-content>

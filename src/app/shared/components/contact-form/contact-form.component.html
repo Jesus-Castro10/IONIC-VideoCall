@@ -1,15 +1,21 @@
-<ion-content class="edit-contact-page">
+<ion-header class="edit-contact-header">
+  <ion-toolbar>
+    <ion-title class="text-center">Editar Contacto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="edit-contact-page" fullscreen="true">
   <div class="container">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-list>
-      @if (action === 'update') {
-        <ion-item>
-          <ion-label position="stacked">Nombre</ion-label>
-          <ion-input formControlName="name" placeholder="Nombre completo"></ion-input>
-        </ion-item>
+        @if (action === 'update') {
+          <ion-item class="input-item">
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input formControlName="name" placeholder="Nombre completo"></ion-input>
+          </ion-item>
         }
-        <ion-item>
-          <ion-label position="stacked">Teléfono</ion-label>
+        <ion-item class="input-item">
+          <ion-label position="floating">Teléfono</ion-label>
           <ion-input formControlName="phone" placeholder="Número de teléfono" type="tel"></ion-input>
         </ion-item>
       </ion-list>
@@ -19,9 +25,11 @@
           {{ actionLabel }}
         </ion-button>
 
-        <ion-button expand="block" *ngIf="showDelete" class="delete-button" color="danger" (click)="onDelete()">
-          Eliminar
-        </ion-button>
+        @if (showDelete) {
+          <ion-button expand="block" class="delete-button" (click)="onDelete()">
+            Eliminar
+          </ion-button>
+        }
 
         <ion-button expand="block" class="cancel-button" fill="outline" (click)="cancel()">
           Cancelar

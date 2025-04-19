@@ -52,6 +52,7 @@ export class LoginPage {
           if (token) {
             this.userService.addUserToken(user, token);
           }
+          window.location.reload();
         }
       );
     } catch (error: any) {
@@ -65,4 +66,7 @@ export class LoginPage {
     await this.router.navigate(['/register']);
   }
 
+  async goToForgot() {
+    await this.router.navigate(['/forgot-password']);
+  }
 }

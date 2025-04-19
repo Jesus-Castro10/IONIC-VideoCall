@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import {ContactFormComponent} from "../components/contact-form/contact-form.component";
 import {Contact} from "../../interfaces/contact";
+import {ContactDto} from "../../interfaces/contact-dto";
 
 
 @Injectable({ providedIn: 'root' })
@@ -10,7 +11,7 @@ export class ModalService {
 
   async openModal(options: {
     action: 'create' | 'update' | 'read',
-    data?: Contact,
+    data?: ContactDto,
     showDelete?: boolean
   }): Promise<Contact | { deleted: true } | null> {
     const modal = await this.modalCtrl.create({

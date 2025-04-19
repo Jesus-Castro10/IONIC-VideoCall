@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import {Contact} from "../../../interfaces/contact";
+import {ContactDto} from "../../../interfaces/contact-dto";
 
 type Actions = 'create' | 'update' | 'read' | 'delete';
 
@@ -11,7 +12,7 @@ type Actions = 'create' | 'update' | 'read' | 'delete';
   standalone: false
 })
 export class ContactFormComponent implements OnInit {
-  @Input() initialData?: Contact;
+  @Input() initialData?: ContactDto;
   @Input() action: Actions = 'create';
   @Input() showDelete = false;
 
@@ -32,7 +33,9 @@ export class ContactFormComponent implements OnInit {
 
   ngOnInit() {
     if (this.initialData) {
-      this.form.patchValue(this.initialData);
+      const name =this.initialData.user.name
+      const phone = this.initialData.user.phone
+      this.form.patchValue({name : name, phone: phone});
     }
 
     if (this.action === 'read') {

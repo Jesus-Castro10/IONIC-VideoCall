@@ -1,28 +1,54 @@
+.contact-detail-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #4f8cff, #1e64d0);
+    color: white;
+    text-align: center;
+    height: 70px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ion-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+  }
+}
+
 .contact-detail-page {
+  --background: linear-gradient(to bottom, #dfe9f3, #ffffff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  height: 100%;
+
   .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    height: 100%;
+    gap: 30px;
+    width: 100%;
+    max-width: 400px;
   }
 
   .contact-card {
     background: #ffffff;
-    padding: 25px 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px 20px;
+    border-radius: 16px;
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
     width: 100%;
-    max-width: 350px;
     text-align: center;
-    margin-bottom: 30px;
 
     h2 {
       font-size: 24px;
       font-weight: bold;
+      color: #333;
       margin-bottom: 10px;
-      color: #222;
     }
 
     p {
@@ -36,23 +62,22 @@
   }
 
   .edit-button {
-    width: 100%;
-    max-width: 300px;
-    height: 50px;
-    --border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #0057ff;
+    --background: #0057ff;
+    --background-hover: #0042c2;
     color: white;
-    box-shadow: 0px 4px 8px rgba(0, 87, 255, 0.4);
+    font-weight: bold;
+    font-size: 16px;
+    height: 50px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 87, 255, 0.4);
     transition: transform 0.2s ease;
 
     &:hover {
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
 
     &:active {
-      transform: scale(0.96);
+      transform: scale(0.97);
     }
   }
 }

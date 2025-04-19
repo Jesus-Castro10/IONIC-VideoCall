@@ -24,7 +24,7 @@ export class UserService {
     await setDoc(userRef, user);
   }
 
-  async get(uid: string): Promise<User | undefined> {
+  async get(uid: any): Promise<User | undefined> {
     const userRef = doc(this.firestore, 'users', uid);
     const snap = await getDoc(userRef);
     return snap.exists() ? (snap.data() as User) : undefined;

@@ -1,0 +1,91 @@
+.incoming-call-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #4f8cff, #1e64d0);
+    color: white;
+    text-align: center;
+    height: 70px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ion-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+  }
+}
+
+.incoming-call-page {
+  --background: linear-gradient(to bottom, #dfe9f3, #ffffff);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.call-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 30px;
+  flex-grow: 1;
+}
+
+.caller-name {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+.call-type {
+  font-size: 18px;
+  color: #666;
+}
+
+.call-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.circular-button {
+  --background: #ccc;
+  --color: white;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  border-radius: 50%;
+  font-size: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+.accept-button {
+  --background: #28c76f;
+}
+
+.reject-button {
+  --background: #e53935;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.05);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+  }
+}
