@@ -49,9 +49,9 @@ export class LoginPage {
           this.loaderService.hide()
           this.loginForm.reset()
           const token = localStorage.getItem('fcm');
-          if (token) {
+
             this.userService.addUserToken(user, token);
-          }
+
           window.location.reload();
         }
       );
