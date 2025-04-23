@@ -1,83 +1,199 @@
-.contact-detail-header {
-  ion-toolbar {
-    --background: linear-gradient(135deg, #4f8cff, #1e64d0);
-    color: white;
-    text-align: center;
-    height: 70px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  ion-title {
-    font-size: 22px;
-    font-weight: bold;
-    color: white;
-  }
+.header-gradient {
+  --background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
 }
 
-.contact-detail-page {
-  --background: linear-gradient(to bottom, #dfe9f3, #ffffff);
+.header-title {
+  color: blue;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.heart-btn {
+  --background: rgba(255, 255, 255, 0.2);
+  --border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.page-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
+  min-height: calc(100vh - 56px);
+  background: linear-gradient(180deg, #f8f9ff 0%, #e8f4ff 100%);
+}
+
+.contact-avatar {
+  margin: 20px auto;
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+ion-avatar {
+  width: 100%;
   height: 100%;
+  border: 3px solid #2575fc;
+  box-shadow: 0 8px 16px rgba(37, 117, 252, 0.3);
+}
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    width: 100%;
-    max-width: 400px;
+.avatar-ring {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border: 2px dashed #6a11cb;
+  border-radius: 50%;
+  top: -5px;
+  left: -5px;
+  animation: rotate 15s linear infinite;
+}
+
+.card-contact {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(106, 17, 203, 0.15);
+  padding: 28px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.card-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(
+      45deg,
+      rgba(106, 17, 203, 0.1) 0%,
+      rgba(37, 117, 252, 0.1) 100%
+  );
+  border-bottom-left-radius: 100%;
+}
+
+.contact-name {
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.contact-name:after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  border-radius: 3px;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+  color: #34495e;
+  font-size: 1.1rem;
+}
+
+.detail-icon {
+  margin-right: 10px;
+  color: #6a11cb;
+  font-size: 1.2rem;
+}
+
+.action-buttons {
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.button-edit {
+  --background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  --box-shadow: 0 4px 20px rgba(106, 17, 203, 0.3);
+  --border-radius: 12px;
+  height: 50px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.button-call {
+  --border-color: #2575fc;
+  --color: #2575fc;
+  --border-radius: 12px;
+  --border-width: 2px;
+  height: 50px;
+  font-weight: 600;
+}
+
+/* Animaciones */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
   }
-
-  .contact-card {
-    background: #ffffff;
-    padding: 30px 20px;
-    border-radius: 16px;
-    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
-    width: 100%;
-    text-align: center;
-
-    h2 {
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 16px;
-      color: #555;
-
-      strong {
-        color: #333;
-      }
-    }
+  50% {
+    transform: scale(1.05);
   }
-
-  .edit-button {
-    --background: #0057ff;
-    --background-hover: #0042c2;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    height: 50px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 87, 255, 0.4);
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.03);
-    }
-
-    &:active {
-      transform: scale(0.97);
-    }
+  100% {
+    transform: scale(1);
   }
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+.bounce-in {
+  animation: bounceIn 0.8s;
 }

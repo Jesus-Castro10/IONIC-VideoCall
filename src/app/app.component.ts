@@ -9,10 +9,7 @@ import {PushNotificationService} from "./core/services/push-notification.service
 })
 export class AppComponent {
   constructor(private notificationService: PushNotificationService) {
-    this.initializeApp();
+
   }
 
-  async initializeApp() {
-    await this.notificationService.initPush();
-  }
 }

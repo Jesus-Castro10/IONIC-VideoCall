@@ -5,6 +5,7 @@ import {AuthService} from "../../core/services/auth-service.service";
 import {LoaderService} from "../../shared/services/loader.service";
 import {ToastService} from "../../shared/services/toast.service";
 import {UserService} from "../../core/services/user.service";
+import {PushNotificationService} from "../../core/services/push-notification.service";
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginPage {
     private toastService: ToastService,
     private loaderService: LoaderService,
     private userService: UserService,
+    private pushService: PushNotificationService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -48,11 +50,8 @@ export class LoginPage {
         () => {
           this.loaderService.hide()
           this.loginForm.reset()
-          const token = localStorage.getItem('fcm');
-
-            this.userService.addUserToken(user, token);
-
-          window.location.reload();
+          this.pushService.refreshToken();
+          this.pushService.listenNotifications()
         }
       );
     } catch (error: any) {

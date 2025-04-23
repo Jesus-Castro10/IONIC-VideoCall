@@ -1,40 +1,43 @@
 <ion-header class="edit-contact-header">
   <ion-toolbar>
-    <ion-title class="text-center">Editar Contacto</ion-title>
+    <ion-title class="text-center">Edit Contact</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="edit-contact-page" fullscreen="true">
-  <div class="container">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <ion-list>
-        @if (action === 'update') {
-          <ion-item class="input-item">
-            <ion-label position="floating">Nombre</ion-label>
-            <ion-input formControlName="name" placeholder="Nombre completo"></ion-input>
-          </ion-item>
-        }
-        <ion-item class="input-item">
-          <ion-label position="floating">Teléfono</ion-label>
-          <ion-input formControlName="phone" placeholder="Número de teléfono" type="tel"></ion-input>
+<ion-content [fullscreen]="true" class="page-content">
+  <div class="form-container">
+    <div class="form-header">
+      <ion-avatar class="form-avatar">
+<!--        <img [src]="avatarPreview || 'assets/icon/default-avatar.png'" alt="Avatar preview"/>-->
+<!--        <ion-icon name="camera" class="avatar-edit-icon"></ion-icon>-->
+      </ion-avatar>
+      <h2>Add New Contact</h2>
+    </div>
+
+    <div class="card-contact">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <ion-item lines="none" class="form-item">
+          <ion-label position="floating">Nickname</ion-label>
+          <ion-input formControlName="name" clearInput></ion-input>
         </ion-item>
-      </ion-list>
 
-      <div class="button-group">
-        <ion-button expand="block" class="update-button" type="submit" [disabled]="form.invalid && action !== 'read'">
-          {{ actionLabel }}
-        </ion-button>
+        <ion-item lines="none" class="form-item">
+          <ion-label position="floating">Phone</ion-label>
+          <ion-input formControlName="phone" type="tel" clearInput></ion-input>
+        </ion-item>
 
-        @if (showDelete) {
-          <ion-button expand="block" class="delete-button" (click)="onDelete()">
-            Eliminar
+        <div class="action-buttons">
+          <ion-button expand="block" class="button-save" type="submit">
+            <ion-icon name="save" slot="start"></ion-icon>
+            {{ actionLabel }}
           </ion-button>
-        }
 
-        <ion-button expand="block" class="cancel-button" fill="outline" (click)="cancel()">
-          Cancelar
-        </ion-button>
-      </div>
-    </form>
+          <ion-button expand="block" class="button-cancel" (click)="cancel()" fill="outline">
+            <ion-icon name="close-circle" slot="start"></ion-icon>
+            Cancel
+          </ion-button>
+        </div>
+      </form>
+    </div>
   </div>
 </ion-content>

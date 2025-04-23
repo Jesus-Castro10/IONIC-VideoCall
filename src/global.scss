@@ -53,3 +53,136 @@
   font-weight: 500;
   margin-top: 10px;
 }
+
+.edit-contact-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #4f8cff, #1e64d0);
+    color: white;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  ion-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+  }
+}
+
+.header-gradient {
+  --background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+}
+
+.header-title {
+  color: blue;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.back-button {
+  --color: white;
+  --icon-font-size: 24px;
+}
+
+.page-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  min-height: calc(100vh - 56px);
+  background: linear-gradient(180deg, #f8f9ff 0%, #e8f4ff 100%);
+}
+
+.form-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-header h2 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.form-avatar {
+  width: 100px;
+  height: 100px;
+  border: 3px solid #2575fc;
+  box-shadow: 0 8px 16px rgba(37, 117, 252, 0.3);
+  position: relative;
+  margin-top: 20px;
+}
+
+.avatar-edit-icon {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: #6a11cb;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 20px;
+  border: 2px solid white;
+}
+
+.card-contact {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(106, 17, 203, 0.15);
+  padding: 24px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-item {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.action-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.button-save {
+  --background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  --box-shadow: 0 4px 20px rgba(106, 17, 203, 0.3);
+  --border-radius: 12px;
+  height: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.button-cancel {
+  --border-color: #2575fc;
+  --color: #2575fc;
+  --border-radius: 12px;
+  --border-width: 2px;
+  height: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

@@ -16,7 +16,7 @@ import {CallService} from "./services/call.service";
 @NgModule({
   declarations: [],
   imports: [
-    SharedModule,
+
   ],
   providers: [
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
