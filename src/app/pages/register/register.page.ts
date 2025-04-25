@@ -48,7 +48,7 @@ export class RegisterPage implements OnInit {
 
       const userAuth = await this.authService.register(email, password);
       const uid = userAuth.uid;
-      await this.userService.create({name, lastname, phone, uid});
+      await this.userService.create({name, lastname, phone, uid, email});
       await this.loaderService.hide()
       await this.toastService.presentToast("User registered successfully","success").then(
         () => {

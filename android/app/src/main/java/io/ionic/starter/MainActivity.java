@@ -5,7 +5,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
-import co.castro.plugins.mycustomplugin.MyCustomPlugin;
 
 import com.getcapacitor.BridgeActivity;
 

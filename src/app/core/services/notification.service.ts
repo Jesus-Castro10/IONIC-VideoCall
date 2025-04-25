@@ -10,26 +10,54 @@ import {UserService} from "./user.service";
 })
 export class NotificationService {
 
-  private url = environment.notifications;
+  private url = environment.notifications + 'notifications';
+  private urlLogin = environment.notifications + 'user/login';
 
   constructor(
     private http: HttpClient,
     private userService: UserService,
   ) {}
 
-  async sendNotification( meetingId: any, name: any, uidUserFrom: string) {
-    const user = await this.userService.get(uidUserFrom)
-    const token = user?.token as string;
-    const title = "Incoming call";
-    const body = name + " is calling you"
-    const userFrom = user?.name as string;
+  async init() {
+    const email = environment.notificationUser.email;
+    const password = environment.notificationUser.password;
+
+    this.http.post<any>(this.urlLogin, { email, password }).subscribe(res => {
+      const token = res?.data?.access_token;
+      console.log("Token: " , token)
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+      console.log(res);
+    });
+  }
+
+  async sendNotification( meetingId: any, userAuth: any, userToCall: any) {
+    const token = userToCall?.token;
+    const title = 'Incoming call...';
+    const body = userAuth?.name + ' is calling you';
+    const priority = 'high';
+    const userId = userAuth?.uid;
+    const name = userAuth?.name;
+    const userFrom = userToCall?.uid;
+
+
     const payload = {
       token,
-      title,
-      body,
-      meetingId,
-      name,
-      userFrom
+      notification: {
+        title,
+        body
+      },
+      android : {
+        priority,
+        data : {
+          userId,
+          meetingId,
+          type: 'incoming_call',
+          name,
+          userFrom
+        }
+      },
     };
     console.log("Payload " + JSON.stringify(payload));
     try {

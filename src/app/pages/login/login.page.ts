@@ -6,6 +6,7 @@ import {LoaderService} from "../../shared/services/loader.service";
 import {ToastService} from "../../shared/services/toast.service";
 import {UserService} from "../../core/services/user.service";
 import {PushNotificationService} from "../../core/services/push-notification.service";
+import {NotificationService} from "../../core/services/notification.service";
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginPage {
     private router: Router,
     private toastService: ToastService,
     private loaderService: LoaderService,
-    private userService: UserService,
+    private notiService: NotificationService,
     private pushService: PushNotificationService,
   ) {
     this.loginForm = this.fb.group({
@@ -48,10 +49,11 @@ export class LoginPage {
 
       this.router.navigate(['/home']).then(
         () => {
-          this.loaderService.hide()
+          this.notiService.init()
           this.loginForm.reset()
           this.pushService.refreshToken();
           this.pushService.listenNotifications()
+          this.loaderService.hide()
         }
       );
     } catch (error: any) {

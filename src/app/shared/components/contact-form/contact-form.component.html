@@ -1,43 +1,26 @@
-<ion-header class="edit-contact-header">
+<ion-header [translucent]="true" class="header-gradient">
   <ion-toolbar>
-    <ion-title class="text-center">Edit Contact</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="header-title">✨ Nuevo Contacto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="page-content">
-  <div class="form-container">
-    <div class="form-header">
-      <ion-avatar class="form-avatar">
-<!--        <img [src]="avatarPreview || 'assets/icon/default-avatar.png'" alt="Avatar preview"/>-->
-<!--        <ion-icon name="camera" class="avatar-edit-icon"></ion-icon>-->
-      </ion-avatar>
-      <h2>Add New Contact</h2>
-    </div>
-
-    <div class="card-contact">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <ion-item lines="none" class="form-item">
-          <ion-label position="floating">Nickname</ion-label>
-          <ion-input formControlName="name" clearInput></ion-input>
-        </ion-item>
-
-        <ion-item lines="none" class="form-item">
-          <ion-label position="floating">Phone</ion-label>
-          <ion-input formControlName="phone" type="tel" clearInput></ion-input>
-        </ion-item>
-
-        <div class="action-buttons">
-          <ion-button expand="block" class="button-save" type="submit">
-            <ion-icon name="save" slot="start"></ion-icon>
-            {{ actionLabel }}
-          </ion-button>
-
-          <ion-button expand="block" class="button-cancel" (click)="cancel()" fill="outline">
-            <ion-icon name="close-circle" slot="start"></ion-icon>
-            Cancel
-          </ion-button>
-        </div>
-      </form>
-    </div>
+<ion-content [fullscreen]="true" class="page-content" scroll-y="false">
+  <app-img-load></app-img-load>
+  <div class="card-contact slide-up">
+    <div class="card-decoration"></div>
+    <form [formGroup]="form">
+      <app-input [label]="'Nickname'" formControlName="nickname" [icon]="'person-outline'"
+                 [placeholder]="'Enter the nickname'"></app-input>
+      <app-input formControlName="phone" [label]="'Phone'" [placeholder]="'Enter the phone number'"
+                 [icon]="'id-card-outline'"></app-input>
+    </form>
   </div>
 </ion-content>

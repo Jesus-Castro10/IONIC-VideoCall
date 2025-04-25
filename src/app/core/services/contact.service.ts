@@ -34,13 +34,13 @@ export class ContactService {
     return collection(this.firestore, `users/${uid}/contacts`);
   }
 
-  async create(uid: string, phone: string) {
+  async create(uid: string, phone: string, nickname: string) {
     const user = await this.userService.findUserByPhoneNumber(phone);
     if (user === null) {
       await this.toastService.presentToast("User doesn't exist",'danger');
       return;
     }
-    const contact = { user_uid: user.uid };
+    const contact = { user_uid: user.uid, nickname: nickname };
     const colRef = this.getContactsCollectionRef(uid);
     await addDoc(colRef, contact);
     await this.loadAll(uid);
@@ -96,6 +96,7 @@ export class ContactService {
     const userData = userSnap.data();
     return {
       uid: contactSnap.id,
+      nickname: contactData['nickname'],
       user: {
         uid: userSnap.id,
         ...userData

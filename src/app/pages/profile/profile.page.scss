@@ -1,0 +1,106 @@
+
+
+.user-info {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e1f9e6;
+  color: #2ecc71;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.online-icon {
+  font-size: 8px;
+  margin-right: 6px;
+}
+
+.user-name {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.user-email {
+  font-size: 14px;
+  color: #888;
+  margin-top: 4px;
+  word-break: break-word;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #f8f9ff 0%, #e8f4ff 100%);
+}
+
+.card-contact {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(106, 17, 203, 0.15);
+  padding: 28px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  margin: 20px auto;
+  position: relative;
+}
+
+.card-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(45deg, rgba(106, 17, 203, 0.1) 0%, rgba(37, 117, 252, 0.1) 100%);
+  border-bottom-left-radius: 100%;
+}
+
+.menu-options {
+  padding: 8px 0;
+}
+
+.menu-item {
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --min-height: 56px;
+  --background: transparent;
+  --background-activated: rgba(106, 17, 203, 0.1);
+  --background-hover: rgba(106, 17, 203, 0.05);
+
+  ion-icon {
+    font-size: 1.4rem;
+    margin-right: 16px;
+  }
+
+  ion-label {
+    font-weight: 500;
+    color: #34495e;
+  }
+}
+
+.chevron-icon {
+  font-size: 18px;
+  color: #ccc;
+}
+
+.logout-btn {
+  color: #d63031;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 28px;
+}

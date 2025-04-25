@@ -2,5 +2,6 @@ import {User} from "./user";
 
 export interface ContactDto {
   uid: string;
-  user: User
+  user: User;
+  nickname?: string
 }

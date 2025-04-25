@@ -1,0 +1,15 @@
+<app-header [title]="'➕ New Contact'" [isLoggedIn]=true></app-header>
+
+<ion-content [fullscreen]="true" class="page-content" scroll-y="false">
+  <app-img-load></app-img-load>
+  <div class="card slide-up">
+    <div class="card-decoration"></div>
+    <form [formGroup]="form">
+      <app-input [label]="'Nickname (optional)'" formControlName="nickname" [icon]="'person-outline'"
+                 [placeholder]="'Enter the nickname'"></app-input>
+      <app-input formControlName="phone" [label]="'Phone'" [placeholder]="'Enter the phone number'"
+                 [icon]="'id-card-outline'"></app-input>
+    </form>
+  </div>
+  <app-actions-buttons [action]="'create'" (clicked)="save()" (otherClicked)="cancelar()"></app-actions-buttons>
+</ion-content>

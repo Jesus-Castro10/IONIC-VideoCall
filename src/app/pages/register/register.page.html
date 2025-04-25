@@ -1,80 +1,37 @@
-<ion-content [fullscreen]="true" class="ion-padding register-bg">
-  <div class="register-container">
-    <ion-card class="register-card">
-      <ion-card-header>
-        <ion-card-title class="ion-text-center">Sign Up</ion-card-title>
-      </ion-card-header>
+<app-header [title]="'➕ Sign Up'"></app-header>
 
-      <ion-card-content>
-        <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input
-              type="email"
-              formControlName="email"
-              required
-            ></ion-input>
-          </ion-item>
+<ion-content [fullscreen]="true" class="page-content">
+  <app-img-load></app-img-load>
+  <div class="card slide-up">
+    <div class="card-decoration"></div>
+    <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
+      <app-input [label]="'Email'" formControlName="email" [icon]="'mail-outline'"
+                 [placeholder]="'Enter the email'" [type]="'email'"></app-input>
 
-          <ion-item>
-            <ion-label position="floating">Name</ion-label>
-            <ion-input
-              type="text"
-              formControlName="name"
-              required
-            ></ion-input>
-          </ion-item>
+      <app-input [label]="'Name'" formControlName="name" [icon]="'person-outline'"
+                 [placeholder]="'Enter the name'"></app-input>
 
-          <ion-item>
-            <ion-label position="floating">Lastname</ion-label>
-            <ion-input
-              type="text"
-              formControlName="lastname"
-              required
-            ></ion-input>
-          </ion-item>
+      <app-input [label]="'Lastname'" formControlName="lastname" [icon]="'person-outline'"
+                 [placeholder]="'Enter the lastname'"></app-input>
 
-          <ion-item>
-            <ion-label position="floating">Phone</ion-label>
-            <ion-input
-              type="number"
-              formControlName="phone"
-              required
-            ></ion-input>
-          </ion-item>
+      <app-input [label]="'Phone'" formControlName="phone" [icon]="'call-outline'"
+                 [placeholder]="'Enter the phone'" [type]="'tel'"></app-input>
 
-          <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input
-              type="password"
-              formControlName="password"
-              required
-            ></ion-input>
-          </ion-item>
+      <app-input [label]="'Password'" formControlName="password" [icon]="'lock-closed-outline'"
+                 [placeholder]="'Enter the password'" [type]="'password'"></app-input>
 
-          <ion-item>
-            <ion-label position="floating">Confirm password</ion-label>
-            <ion-input
-              type="password"
-              formControlName="confirmPassword"
-              required
-            ></ion-input>
-          </ion-item>
+      <app-input [label]="'Confirm password'" formControlName="confirmPassword" [icon]="'lock-closed-outline'"
+                 [placeholder]="'Confirm the password'" [type]="'password'"></app-input>
 
-          <ion-button
-            expand="block"
-            type="submit"
-            class="ion-margin-top"
-            [disabled]="registerForm.invalid"
-          >
-            Signup
-          </ion-button>
-        </form>
-
-        <div class="ion-text-center ion-margin-top">
-          <a (click)="goToLogin()">Already have an account? Sign in</a>
-        </div>
-      </ion-card-content>
-    </ion-card>
+      <ion-button
+        expand="block"
+        type="submit"
+        class="ion-margin-top"
+        [disabled]="registerForm.invalid"
+      >
+        Signup
+      </ion-button>
+      <a (click)="goToLogin()" class="btn-signup">Already have an account? Sign in</a>
+    </form>
   </div>
 </ion-content>

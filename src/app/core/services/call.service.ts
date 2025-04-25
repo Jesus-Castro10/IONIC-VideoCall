@@ -45,9 +45,10 @@ export class CallService {
       await this.toastService.presentToast("Error to init call",'danger')
     }
     const meetingId = this.generateId();
-    await this.launchCall(meetingId,userAuth?.name);
-    // @ts-ignore
-    await this.notificationService.sendNotification(meetingId,userAuth?.displayName,userToCall.uid)
+    this.launchCall(meetingId,userAuth?.name).then(() => {
+      // @ts-ignore
+      this.notificationService.sendNotification(meetingId,userAuth,userToCall)
+    });
   }
 
   generateId(): string {

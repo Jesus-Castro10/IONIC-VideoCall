@@ -1,0 +1,11 @@
+<div class="action-buttons">
+  <ion-button expand="block" class="button-edit bounce-in" (click)="onClick()">
+    <ion-icon name="create-outline" slot="start"></ion-icon>
+    {{actionLabel}}
+  </ion-button>
+
+  <ion-button expand="block" class="button-call" fill="outline" (click)="onOtherClick()">
+    <ion-icon [name]="icon" slot="start"></ion-icon>
+    {{otherLabel}}
+  </ion-button>
+</div>

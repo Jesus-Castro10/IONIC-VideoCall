@@ -7,17 +7,15 @@ import {Router} from "@angular/router";
   styleUrls: ['./header.component.scss'],
   standalone: false,
 })
-export class HeaderComponent  implements OnInit {
+export class HeaderComponent {
 
-  @Input() title: string = "Mi ECommerce";
+  @Input() title: string = "Jit Call";
+  @Input() isLoggedIn: boolean = false;
+  @Input() isHome: boolean = false;
 
   constructor(private router: Router) { }
 
-  ngOnInit() {
-    console.log("Header", this.title);
-  }
-
-  goHome() {
-    this.router.navigate(["/home"]);
+  async goHome() {
+    await this.router.navigate(["/home"]);
   }
 }

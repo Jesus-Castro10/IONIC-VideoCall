@@ -1,0 +1,16 @@
+<app-header [isLoggedIn]=true [title]="'Edit Contact'"></app-header>
+
+<ion-content [fullscreen]="true" class="contact-detail-page">
+  <app-img-load></app-img-load>
+  <div class="card slide-up">
+    <div class="card-decoration"></div>
+    <form [formGroup]="form">
+      <app-input [label]="'Nickname (optional)'" formControlName="nickname" [icon]="'person-outline'"
+                 [placeholder]="'Enter the nickname'"></app-input>
+      <app-input formControlName="phone" [label]="'Phone'" [placeholder]="'Enter the phone number'"
+                 [icon]="'id-card-outline'"></app-input>
+    </form>
+  </div>
+  <app-actions-buttons [action]="'create'"></app-actions-buttons>
+
+</ion-content>

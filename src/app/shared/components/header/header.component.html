@@ -1,10 +1,10 @@
 <ion-header [translucent]="true" class="header-gradient">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button default-href="#"></ion-back-button>
+    <ion-buttons slot="start" *ngIf="isLoggedIn">
+      <ion-back-button default-href="/home"></ion-back-button>
     </ion-buttons>
     <ion-title class="header-title">{{ title }}</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="isLoggedIn && !isHome">
       <ion-button (click)="goHome()">
         <ion-icon name="home"></ion-icon>
       </ion-button>

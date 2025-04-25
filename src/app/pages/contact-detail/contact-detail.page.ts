@@ -9,6 +9,7 @@ import { UserService } from '../../core/services/user.service';
 import { User } from '../../interfaces/user';
 import { firstValueFrom } from 'rxjs';
 import {ContactDto} from "../../interfaces/contact-dto";
+import {CallService} from "../../core/services/call.service";
 
 @Component({
   selector: 'app-contact-detail',
@@ -28,6 +29,7 @@ export class ContactDetailPage implements OnInit {
     private loaderService: LoaderService,
     private modalService: ModalService,
     private authService: AuthService,
+    private callService: CallService,
   ) {
     this.authService.getCurrentUser().then(value => {
       this.uid = value?.uid || '';
@@ -49,7 +51,7 @@ export class ContactDetailPage implements OnInit {
         await this.loaderService.hide();
       },
       error: async (error) => {
-        console.error('Error cargando contacto:', error);
+        console.error('Error loading contact:', error);
         await this.loaderService.hide();
       }
     });
@@ -74,5 +76,9 @@ export class ContactDetailPage implements OnInit {
 
   isDeletedResponse(result: any): result is { deleted: true } {
     return result && result.deleted === true;
+  }
+
+  async call(phone: any){
+    await this.callService.joinCall(phone)
   }
 }

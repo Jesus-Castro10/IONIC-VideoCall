@@ -47,25 +47,8 @@ export class HomePage implements OnInit {
     await this.loaderService.hide();
   }
 
-  async openCreateModal() {
-    const result = await this.modalService.openModal({ action: 'create' });
-
-    if (result) {
-      const contact = result as Contact;
-      await this.loaderService.show("Saving contact...");
-      await this.contactService.create(this.uid, contact.phone);
-      await this.loaderService.hide();
-    }
-  }
-
   async goToDetail(id: any) {
     await this.router.navigate(['/contact-detail/' + id]);
-  }
-
-  async logout() {
-    await this.loaderService.show('Closing session');
-    await this.authService.logout();
-    await this.loaderService.hide().then(() => this.router.navigate(['/login']));
   }
 
   async callContact(phone: any) {

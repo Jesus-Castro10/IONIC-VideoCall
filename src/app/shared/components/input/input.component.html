@@ -1,0 +1,9 @@
+<div class="input-block">
+  <label class="input-label">{{label}}</label>
+  <ion-item class="custom-input-wrapper" lines="none">
+    <ion-icon [name]="icon" slot="start" class="custom-icon"></ion-icon>
+    <ion-input class="custom-input" [type]="type" [placeholder]="placeholder" [value]="value"
+               (ionInput)="onInputChange($event)">
+    </ion-input>
+  </ion-item>
+</div>

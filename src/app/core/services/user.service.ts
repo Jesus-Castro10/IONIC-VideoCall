@@ -17,7 +17,6 @@ import {Auth} from "@angular/fire/auth";
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private firestore = inject(Firestore);
-  private auth = inject(Auth)
 
   async create(user: User) {
     const userRef = doc(this.firestore, 'users', user.uid);

@@ -1,38 +1,23 @@
-<app-header [title]="'👤 Contact Detail'"></app-header>
+<app-header [title]="'👤 Contact Detail'" [isLoggedIn]=true></app-header>
 
 <ion-content class="contact-detail-page">
   <div class="container">
     @if (contact) {
-      <div class="contact-avatar pulse">
-        <ion-avatar>
-<!--          <img [src]="contact.photo || 'assets/icon/default-avatar.png'" alt="{{ contact.user.name }}" />-->
-          <div class="avatar-ring"></div>
-        </ion-avatar>
-      </div>
-
+      <app-img-load [contact]="contact"></app-img-load>
       <div class="card-contact slide-up">
         <div class="card-decoration"></div>
-        <h2 class="contact-name">{{ contact.user.name }}</h2>
+        <p>({{ contact.nickname }})</p>
+        <h2 class="contact-name">{{ contact.user.name }}  {{contact.user.lastname}}</h2>
         <div class="contact-detail">
           <ion-icon name="call-outline" class="detail-icon"></ion-icon>
           <p>{{ contact.user.phone }}</p>
         </div>
-<!--        <div class="contact-detail" *ngIf="contact.user.email">-->
-<!--          <ion-icon name="mail-outline" class="detail-icon"></ion-icon>-->
-<!--          <p>{{ contact.user.email }}</p>-->
-<!--        </div>-->
+        <div class="contact-detail" *ngIf="contact.user.email">
+          <ion-icon name="mail-outline" class="detail-icon"></ion-icon>
+          <p>{{ contact.user.email }}</p>
+        </div>
       </div>
-
-      <div class="action-buttons">
-        <ion-button expand="block" class="button-edit bounce-in" (click)="openEditionModal()">
-          <ion-icon name="create-outline" slot="start"></ion-icon>
-          Edit Contact
-        </ion-button>
-        <ion-button expand="block" class="button-call" fill="outline">
-          <ion-icon name="videocam-outline" slot="start"></ion-icon>
-          Call
-        </ion-button>
-      </div>
+      <app-actions-buttons (clicked)="openEditionModal()" (otherClicked)="call(contact.user.phone)" [icon]="'videocam-outline'" ></app-actions-buttons>
     }
   </div>
 </ion-content>

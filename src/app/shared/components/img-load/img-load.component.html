@@ -1,0 +1,10 @@
+<div class="contact-avatar pulse">
+  <ion-avatar>
+    @if (contact) {
+      <img [src]="contact.user.image || 'assets/icon/default-avatar.png'" alt="{{ contact.user.name }}"/>
+    } @else {
+      <img src="assets/icon/default-avatar.png" alt="Avatar"/>
+    }
+    <div class="avatar-ring"></div>
+  </ion-avatar>
+</div>

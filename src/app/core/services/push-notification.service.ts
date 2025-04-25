@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Capacitor } from '@capacitor/core';
+import {Capacitor, registerPlugin} from '@capacitor/core';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Firestore, doc, getDoc, updateDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { NavController } from '@ionic/angular';
+
+const MyCustomPlugin = registerPlugin<{
+  addListener: (eventName: string, callback: (data: any) => void) => Promise<void>;
+  resumePending: () => Promise<void>;
+}>('MyCustomPlugin');
 
 @Injectable({ providedIn: 'root' })
 export class PushNotificationService {
@@ -59,16 +64,22 @@ export class PushNotificationService {
       return;
     }
 
-    await PushNotifications.addListener('pushNotificationReceived', (notification) => {
-      console.log('📩 Push notification received:', JSON.stringify(notification));
+    // await PushNotifications.addListener('pushNotificationReceived', (notification) => {
+    //   console.log('📩 Push notification received:', JSON.stringify(notification));
+    //
+    //   const meetingId = notification.data?.meetingId;
+    //   const name = notification.data?.name;
+    //   const user = this.auth.currentUser;
+    //
+    //   if (user && meetingId && name) {
+    //     this.navigateToIncomingCall(meetingId, name);
+    //   }
+    // });
 
-      const meetingId = notification.data?.meetingId;
-      const name = notification.data?.name;
-      const user = this.auth.currentUser;
+    MyCustomPlugin.addListener?.('dummy', () => {});
 
-      if (user && meetingId && name) {
-        this.navigateToIncomingCall(meetingId, name);
-      }
+    await MyCustomPlugin.addListener('pushNotificationReceived', (data) => {
+      this.navigateToIncomingCall(data.meetingId, data.callerName);
     });
 
     await LocalNotifications.addListener('localNotificationActionPerformed', (event) => {
