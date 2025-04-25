@@ -11,6 +11,6 @@
                  [icon]="'id-card-outline'"></app-input>
     </form>
   </div>
-  <app-actions-buttons [action]="'create'"></app-actions-buttons>
+  <app-actions-buttons [action]="'create'" (clicked)="update()" (otherClicked)="cancel()"></app-actions-buttons>
 
 </ion-content>

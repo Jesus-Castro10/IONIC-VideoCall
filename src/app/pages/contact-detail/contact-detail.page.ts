@@ -27,7 +27,6 @@ export class ContactDetailPage implements OnInit {
     private contactService: ContactService,
     private router: Router,
     private loaderService: LoaderService,
-    private modalService: ModalService,
     private authService: AuthService,
     private callService: CallService,
   ) {
@@ -58,20 +57,7 @@ export class ContactDetailPage implements OnInit {
   }
 
   async openEditionModal() {
-    const result = await this.modalService.openModal({
-      action: 'update',
-      data: this.contact,
-      showDelete: true
-    });
-    await this.loaderService.show();
-    if (this.isDeletedResponse(result)) {
-      console.log("uid " + this.contactId, "uid", JSON.stringify(this.contactService.get(this.uid,this.contactId)));
-      await this.contactService.delete(this.uid, this.contactId);
-    } else if (result) {
-      await this.contactService.update(this.uid, this.contactId, result);
-    }
-    await this.router.navigate(['/home']);
-    await this.loaderService.hide();
+    await this.router.navigate(['/edit-contact/' + this.contactId]);
   }
 
   isDeletedResponse(result: any): result is { deleted: true } {

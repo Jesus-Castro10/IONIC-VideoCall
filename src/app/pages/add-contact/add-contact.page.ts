@@ -34,20 +34,6 @@ export class AddContactPage {
     });
   }
 
-
-  async selectAvatar() {
-    // try {
-    //   const image = await Camera.getPhoto({
-    //     quality: 90,
-    //     allowEditing: true,
-    //     resultType: CameraResultType.DataUrl
-    //   });
-    //   this.avatarPreview = image.dataUrl;
-    // } catch (error) {
-    //   console.log('Usuario canceló la selección de imagen');
-    // }
-  }
-
   async save() {
     console.log('Form : ', this.form.value);
     const contact = this.form.value;

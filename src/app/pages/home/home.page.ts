@@ -26,7 +26,6 @@ export class HomePage implements OnInit {
     private router: Router,
     private loaderService: LoaderService,
     private authService: AuthService,
-    private modalService: ModalService,
     private callService: CallService,
   ) {
     this.authService.getCurrentUser().then(value => {
