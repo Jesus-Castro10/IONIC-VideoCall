@@ -49,6 +49,7 @@ export class LoginPage {
 
       this.router.navigate(['/home']).then(
         () => {
+          localStorage.setItem('user_id', user.uid);
           this.notiService.init()
           this.loginForm.reset()
           this.pushService.refreshToken();

@@ -1,0 +1,21 @@
+.message {
+  display: flex;
+  margin: 8px 0;
+
+  .bubble {
+    background-color: #e5e5ea;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 70%;
+    font-size: 14px;
+  }
+
+  &.mine {
+    justify-content: flex-end;
+
+    .bubble {
+      background-color: #3880ff;
+      color: white;
+    }
+  }
+}

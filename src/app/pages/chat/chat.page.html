@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="messages$ | async as messages">
+    <div
+      *ngFor="let msg of messages"
+      class="message"
+      [class.mine]="msg.senderId === currentUserId"
+    >
+      <div class="bubble">{{ msg.content }}</div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-input
+        [(ngModel)]="newMessage"
+        placeholder="Escribe un mensaje..."
+      ></ion-input>
+      <ion-button
+        slot="end"
+        (click)="sendMessage()"
+        [disabled]="!newMessage.trim()"
+        >Enviar</ion-button
+      >
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>
