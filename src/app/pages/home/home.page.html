@@ -3,12 +3,12 @@
   @if (contacts) {
     <ion-list>
       @for (contact of contacts; track contact.uid) {
-        <ion-item lines="full" [button]="true" detail="false" (click)="goToDetail(contact.uid)">
+        <ion-item lines="full" [button]="true" detail="false" (click)="goChat(contact.user.uid); $event.stopPropagation()">
           <ion-label>
             <h2>{{ contact.user.name }} {{ contact.user.lastname }}</h2>
             <p>{{ contact.user.phone }}</p>
           </ion-label>
-          <ion-button class="call-button" fill="solid" color="success" slot="end" (click)="callContact(contact.user.phone); $event.stopPropagation()">
+          <ion-button class="call-button" fill="solid" color="success" slot="end">
             <ion-icon name="videocam-outline"></ion-icon>
           </ion-button>
         </ion-item>

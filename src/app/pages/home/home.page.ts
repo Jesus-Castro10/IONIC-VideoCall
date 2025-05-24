@@ -53,4 +53,8 @@ export class HomePage implements OnInit {
   async callContact(phone: any) {
     await this.callService.joinCall(phone);
   }
+
+  async goChat(id: any) {
+    await this.router.navigate(['/chat/' + id]);
+  }
 }
