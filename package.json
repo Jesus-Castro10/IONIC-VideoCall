@@ -33,6 +33,7 @@
     "@capawesome/capacitor-file-picker": "^7.1.0",
     "@ionic/angular": "^8.0.0",
     "@supabase/supabase-js": "^2.49.5",
+    "capacitor-voice-recorder": "^7.0.5",
     "firebase": "^11.6.0",
     "ionicons": "^7.0.0",
     "JitCall": "file:",

@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Grabación de Audio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button expand="block" (click)="toggleRecording()">
+    {{ isRecording ? 'Detener grabación' : 'Iniciar grabación' }}
+  </ion-button>
+
+  <div *ngIf="audioBlobUrl" class="ion-margin-top">
+    <ion-label>Audio grabado:</ion-label>
+    <audio [src]="audioBlobUrl" controls></audio>
+  </div>
+</ion-content>

@@ -47,6 +47,10 @@ const routes: Routes = [
   {
     path: 'chat/:id',
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'test-audio',
+    loadChildren: () => import('./pages/test-audio/test-audio.module').then( m => m.TestAudioPageModule)
   }
 ];
 
