@@ -5,6 +5,7 @@ import { Message } from 'src/app/interfaces/message';
 import { ActivatedRoute } from '@angular/router';
 import { FileService } from 'src/app/shared/services/file.service';
 import { BucketService } from 'src/app/core/services/bucket.service';
+import { GeolocationService } from 'src/app/shared/services/geolocation.service';
 
 @Component({
   selector: 'app-chat',
@@ -23,7 +24,8 @@ export class ChatPage implements OnInit {
     private chatService: ChatService,
     private route: ActivatedRoute,
     private fileService: FileService,
-    private bucketSrv: BucketService
+    private bucketSrv: BucketService,
+    private geoService: GeolocationService
   ) {}
 
   ngOnInit() {
@@ -61,6 +63,15 @@ export class ChatPage implements OnInit {
       console.log('JITCALL : URL del archivo subido:', url);
     } else {
       console.log('No se seleccionó archivo');
+    }
+  }
+
+  async getLocation() {
+    try {
+      const location = await this.geoService.getCurrentLocation();
+      console.log('Ubicación actual:', location);
+    } catch (error) {
+      console.error('Error obteniendo ubicación:', error);
     }
   }
 }

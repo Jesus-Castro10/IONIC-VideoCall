@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Ubicación Actual</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button expand="block" (click)="getLocation()">
+    Obtener ubicación
+  </ion-button>
+  <div>
+    <p *ngIf="position">
+      {{position}}
+    </p>
+  </div>
+  <div *ngIf="latitude && longitude" class="ion-margin-top">
+    <p><strong>Latitud:</strong> {{ latitude }}</p>
+    <p><strong>Longitud:</strong> {{ longitude }}</p>
+    <p *ngIf="accuracy"><strong>Precisión:</strong> {{ accuracy }} metros</p>
+  </div>
+</ion-content>
