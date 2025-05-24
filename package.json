@@ -38,6 +38,7 @@
     "firebase": "^11.6.0",
     "ionicons": "^7.0.0",
     "JitCall": "file:",
+    "mapbox-gl": "^3.12.0",
     "my-custom-plugin": "file:../plugins/my-custom-plugin",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
