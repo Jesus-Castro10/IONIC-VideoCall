@@ -8,6 +8,29 @@
     border-radius: 12px;
     max-width: 70%;
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    img,
+    video {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    audio {
+      width: 100%;
+    }
+
+    a {
+      color: #3880ff;
+      text-decoration: underline;
+    }
+
+    ion-icon {
+      font-size: 20px;
+      margin-right: 6px;
+    }
   }
 
   &.mine {
@@ -16,6 +39,26 @@
     .bubble {
       background-color: #3880ff;
       color: white;
+
+      a {
+        color: white;
+      }
+
+      ion-icon {
+        color: white;
+      }
     }
+  }
+}
+
+.attachment-options {
+  display: flex;
+  justify-content: space-around;
+  padding: 4px 0;
+
+  ion-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    font-size: 18px;
   }
 }

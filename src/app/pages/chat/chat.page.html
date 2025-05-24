@@ -11,7 +11,36 @@
       class="message"
       [class.mine]="msg.senderId === currentUserId"
     >
-      <div class="bubble">{{ msg.content }}</div>
+      <!-- Texto plano -->
+      <div *ngIf="msg.type === 'text'" class="bubble">{{ msg.content }}</div>
+
+      <!-- Audio -->
+      <div *ngIf="msg.type === 'audio'" class="bubble audio-msg">
+        <ion-icon name="mic"></ion-icon>
+        <audio [src]="msg.url" controls></audio>
+      </div>
+
+      <!-- Archivo -->
+      <div *ngIf="msg.type === 'file'" class="bubble file-msg">
+        <ion-icon name="document"></ion-icon>
+        <a [href]="msg.url" target="_blank">{{ msg.filename || 'Archivo adjunto' }}</a>
+      </div>
+
+      <!-- Imagen o video -->
+      <div *ngIf="msg.type === 'image'" class="bubble media-msg">
+        <img [src]="msg.url" alt="imagen enviada" />
+      </div>
+      <div *ngIf="msg.type === 'video'" class="bubble media-msg">
+        <video [src]="msg.url" controls></video>
+      </div>
+
+      <!-- Localización -->
+      <div *ngIf="msg.type === 'location'" class="bubble location-msg">
+        <ion-icon name="location"></ion-icon>
+        <a [href]="'https://maps.google.com/?q=' + msg.lat + ',' + msg.lng" target="_blank">
+          Ver ubicación
+        </a>
+      </div>
     </div>
   </div>
 </ion-content>
@@ -30,5 +59,12 @@
         >Enviar</ion-button
       >
     </ion-item>
+    <ion-buttons class="attachment-options">
+      <ion-button><ion-icon name="mic"></ion-icon></ion-button>
+      <ion-button><ion-icon name="image"></ion-icon></ion-button>
+      <ion-button (click)="selectFile()"><ion-icon name="document"></ion-icon></ion-button>
+      <ion-button><ion-icon name="videocam"></ion-icon></ion-button>
+      <ion-button><ion-icon name="location"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-footer>
