@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import {AuthService} from "../../core/services/auth-service.service";
 import {LoaderService} from "../../shared/services/loader.service";
 import {ToastService} from "../../shared/services/toast.service";
-import {UserService} from "../../core/services/user.service";
 import {PushNotificationService} from "../../core/services/push-notification.service";
 import {NotificationService} from "../../core/services/notification.service";
 

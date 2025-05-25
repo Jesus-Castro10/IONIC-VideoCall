@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ContactDto} from "../../../interfaces/contact-dto";
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-img-load',
@@ -9,8 +10,13 @@ import {ContactDto} from "../../../interfaces/contact-dto";
 })
 export class ImgLoadComponent {
 
-  @Input() contact!: ContactDto;
+  @Input() user!: User | undefined;
+  @Input() imageUrl!: string;
+  @Output() select = new EventEmitter<void>();
 
   constructor() { }
 
+  onClick() {
+    this.select.emit();
+  }
 }

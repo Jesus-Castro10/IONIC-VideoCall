@@ -1,7 +1,7 @@
 <app-header [title]="'➕ Sign Up'"></app-header>
 
 <ion-content [fullscreen]="true" class="page-content">
-  <app-img-load></app-img-load>
+  <app-img-load [imageUrl]="previewImage" (select)="pickImage()"></app-img-load>
   <div class="card slide-up">
     <div class="card-decoration"></div>
     <form (ngSubmit)="onRegister()" [formGroup]="registerForm">

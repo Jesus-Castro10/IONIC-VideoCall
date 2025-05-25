@@ -1,7 +1,9 @@
-<div class="contact-avatar pulse">
+<div class="contact-avatar pulse" (click)="onClick()">
   <ion-avatar>
-    @if (contact) {
-      <img [src]="contact.user.image || 'assets/icon/default-avatar.png'" alt="{{ contact.user.name }}"/>
+    @if (user) {
+      <img [src]="user.image || 'assets/icon/default-avatar.png'" alt="{{ user.name }}"/>
+    } @else if (imageUrl) {
+      <img [src]="imageUrl" alt="Avatar"/>
     } @else {
       <img src="assets/icon/default-avatar.png" alt="Avatar"/>
     }

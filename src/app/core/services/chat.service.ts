@@ -13,12 +13,16 @@ import {
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Message } from 'src/app/interfaces/message';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  constructor(private firestore: Firestore) {}
+  constructor(
+    private firestore: Firestore,
+    private notiSrv: NotificationService
+  ) {}
 
   generateChatId(userId1: string, userId2: string): string {
     return [userId1, userId2].sort().join('_');

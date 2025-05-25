@@ -25,13 +25,39 @@ export class BucketService {
     return publicUrl;
   }
 
-  async uploadAudio(blob: Blob, path: string): Promise<string> {
-    const { data, error } = await this.supabase.storage.from('jitcall/audio').upload(path, blob);
-    if (error) throw error;
+  // async uploadAudio(blob: Blob, path: string): Promise<string> {
 
-    const { publicUrl } = this.supabase.storage.from('jitcall/audio').getPublicUrl(path).data;
-    return publicUrl;
+  //   const { data, error } = await this.supabase.storage.from('jitcall/audio').upload(path, blob,{mimeType: 'audio/aac'});
+  //   if (error) throw error;
+
+  //   const { publicUrl } = this.supabase.storage.from('jitcall/audio').getPublicUrl(path).data;
+  //   return publicUrl;
+  // }
+
+  async uploadAudio(blob: Blob, path: string): Promise<string> {
+  const { error } = await this.supabase.storage
+    .from('jitcall/audio')
+    .upload(path, blob, {
+      contentType: blob.type || 'audio/aac',
+      upsert: true,
+    });
+
+  if (error) {
+    console.error('Error al subir el audio:', error);
+    throw error;
   }
+
+  const { data } = this.supabase.storage
+    .from('jitcall/audio')
+    .getPublicUrl(path);
+
+  if (!data?.publicUrl) {
+    throw new Error('No se pudo obtener la URL pública del audio');
+  }
+
+  return data.publicUrl;
+}
+
   
   async uploadVideo(blob: Blob, path: string): Promise<string> {
     const { data, error } = await this.supabase.storage.from('jitcall/video').upload(path, blob);

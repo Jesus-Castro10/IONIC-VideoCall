@@ -1,13 +1,13 @@
 <app-header [title]="'My Profile'" [isLoggedIn]=true></app-header>
 
 <ion-content [fullscreen]="true" class="page-content" scroll-y="false">
-  <app-img-load></app-img-load>
+  <app-img-load [user]="user"></app-img-load>
   <div class="user-info">
     <div class="status-badge">
       <ion-icon name="ellipse" class="online-icon"></ion-icon>
       En línea
     </div>
-    <h2 class="user-name">{{ user?.displayName }}</h2>
+    <h2 class="user-name">{{ user?.name }}</h2>
     <p class="user-email">{{ user?.email }}</p>
   </div>
 

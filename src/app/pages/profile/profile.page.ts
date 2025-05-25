@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../core/services/auth-service.service";
-import {User} from "@angular/fire/auth";
+import { UserService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-profile',
@@ -10,10 +11,9 @@ import {User} from "@angular/fire/auth";
 })
 export class ProfilePage implements OnInit{
 
-  user!: User | null
+  user!: User | undefined;
 
-  constructor(private authService: AuthService) {
-
+  constructor(private authService: AuthService, private userService: UserService) {
   }
 
   async ngOnInit() {
@@ -21,8 +21,7 @@ export class ProfilePage implements OnInit{
   }
 
   async loadUser() {
-    this.authService.getCurrentUser().then(user => {
-      this.user = user
-    })
+    const uid = await this.authService.getCurrentUser().then(user => user?.uid);
+    this.user = await this.userService.get(uid);
   }
 }

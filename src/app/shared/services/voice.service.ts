@@ -15,6 +15,7 @@ export class VoiceService {
   }
 
   async startRecording(): Promise<void> {
+    await this.requestPermissions();
     await VoiceRecorder.startRecording();
   }
 

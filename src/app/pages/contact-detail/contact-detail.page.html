@@ -3,7 +3,7 @@
 <ion-content class="contact-detail-page">
   <div class="container">
     @if (contact) {
-      <app-img-load [contact]="contact"></app-img-load>
+      <app-img-load [user]="contact.user"></app-img-load>
       <div class="card-contact slide-up">
         <div class="card-decoration"></div>
         <p>({{ contact.nickname }})</p>
