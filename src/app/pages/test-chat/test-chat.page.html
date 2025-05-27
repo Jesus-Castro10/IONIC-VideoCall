@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-avatar slot="start">
+        <img src="assets/avatar.jpg" />
+      </ion-avatar>
+      <ion-label>
+        <h2>Samuel 😬</h2>
+        <p>Activo hace 14 h</p>
+      </ion-label>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear">
+        <ion-icon name="call-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="chat-content">
+  <div class="chat-container">
+
+    <div class="date-label">12 feb. 2025, 12:50</div>
+
+    <div class="message mine">
+      <div class="bubble">Tú estás asistiendo a esa convocatoria?</div>
+      <div class="bubble">Es hasta hoy</div>
+    </div>
+
+    <div class="message">
+      <div class="avatar-msg">
+        <img src="assets/avatar.jpg" class="avatar-img" />
+      </div>
+      <div>
+        <div class="bubble">Yo fui ayer</div>
+        <div class="bubble">Y escogieron a un vale q no jugó mejor q yo</div>
+        <div class="bubble">Lo cogieron disq x buena pegada y el vale ni siquiera paí al arco</div>
+      </div>
+    </div>
+
+    <div class="date-label">12 feb. 2025, 15:35</div>
+
+    <div class="message own">
+      <div class="bubble">No siempre quedan los mejores</div>
+      <div class="bubble">¿A cuántos escogieron?</div>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="chat-footer">
+    <ion-buttons slot="start">
+      <ion-button (click)="showAttachmentOptions()">
+        <ion-icon name="attach-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-input [(ngModel)]="messageText" placeholder="Escribe un mensaje..." class="input"></ion-input>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="mic-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="sendMessage()">
+        <ion-icon name="send-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

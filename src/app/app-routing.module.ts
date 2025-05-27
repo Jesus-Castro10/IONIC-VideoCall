@@ -59,6 +59,10 @@ const routes: Routes = [
   {
     path: 'test-noti',
     loadChildren: () => import('./pages/test-noti/test-noti.module').then( m => m.TestNotiPageModule)
+  },
+  {
+    path: 'test-chat',
+    loadChildren: () => import('./pages/test-chat/test-chat.module').then( m => m.TestChatPageModule)
   }
 ];
 
