@@ -1,21 +1,22 @@
-<ion-header>
+<ion-header class="chat-header">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-avatar slot="start">
+    <ion-buttons slot="start" class="header-user">
+      <ion-back-button defaultHref="/" class="back-button" text=""></ion-back-button>
+      <ion-avatar class="header-avatar">
         <img src="assets/avatar.jpg" />
       </ion-avatar>
-      <ion-label>
-        <h2>Samuel 😬</h2>
-        <p>Activo hace 14 h</p>
-      </ion-label>
+      <div class="user-info">
+        <h2 class="user-name">Samuel 😬</h2>
+        <p class="user-status">Activo hace 14 h</p>
+      </div>
     </ion-buttons>
 
-    <ion-buttons slot="end">
-      <ion-button fill="clear">
-        <ion-icon name="call-outline"></ion-icon>
+    <ion-buttons slot="end" class="header-actions">
+      <ion-button fill="clear" class="action-button">
+        <ion-icon name="videocam" class="action-icon"></ion-icon>
       </ion-button>
-      <ion-button fill="clear">
-        <ion-icon name="information-circle-outline"></ion-icon>
+      <ion-button fill="clear" class="action-button">
+        <ion-icon name="information-circle" class="action-icon"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -24,54 +25,71 @@
 <ion-content class="chat-content">
   <div class="chat-container">
 
-    <div class="date-label">12 feb. 2025, 12:50</div>
-
-    <div class="message mine">
-      <div class="bubble">Tú estás asistiendo a esa convocatoria?</div>
-      <div class="bubble">Es hasta hoy</div>
+    <div class="date-divider">
+      <span class="date-label">12 feb. 2025, 12:50</span>
     </div>
 
-    <div class="message">
-      <div class="avatar-msg">
-        <img src="assets/avatar.jpg" class="avatar-img" />
+    <div class="message-row mine">
+      <div class="message-bubbles">
+        <div class="bubble mine">Tú estás asistiendo a esa convocatoria?</div>
+        <div class="bubble mine">Es hasta hoy</div>
       </div>
-      <div>
-        <div class="bubble">Yo fui ayer</div>
-        <div class="bubble">Y escogieron a un vale q no jugó mejor q yo</div>
-        <div class="bubble">Lo cogieron disq x buena pegada y el vale ni siquiera paí al arco</div>
+      <div class="message-time">12:50</div>
+    </div>
+
+    <div class="message-row theirs">
+      <ion-avatar class="message-avatar">
+        <img src="assets/avatar.jpg" />
+      </ion-avatar>
+      <div class="message-content">
+        <div class="message-bubbles">
+          <div class="bubble theirs">Yo fui ayer</div>
+          <div class="bubble theirs">Y escogieron a un vale q no jugó mejor q yo</div>
+          <div class="bubble theirs">Lo cogieron disq x buena pegada y el vale ni siquiera paí al arco</div>
+        </div>
+        <div class="message-time">12:52</div>
       </div>
     </div>
 
-    <div class="date-label">12 feb. 2025, 15:35</div>
-
-    <div class="message own">
-      <div class="bubble">No siempre quedan los mejores</div>
-      <div class="bubble">¿A cuántos escogieron?</div>
+    <div class="date-divider">
+      <span class="date-label">12 feb. 2025, 15:35</span>
     </div>
 
+    <div class="message-row mine">
+      <div class="message-bubbles">
+        <div class="bubble mine">No siempre quedan los mejores</div>
+        <div class="bubble mine">¿A cuántos escogieron?</div>
+      </div>
+      <div class="message-time">15:35</div>
+    </div>
   </div>
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar class="chat-footer">
-    <ion-buttons slot="start">
-      <ion-button (click)="showAttachmentOptions()">
-        <ion-icon name="attach-outline"></ion-icon>
+<ion-footer class="chat-footer">
+  <ion-toolbar>
+    <div class="input-container">
+      <ion-button fill="clear" class="attach-button" (click)="showAttachmentOptions()">
+        <ion-icon name="add" class="attach-icon"></ion-icon>
       </ion-button>
-    </ion-buttons>
-
-    <ion-input [(ngModel)]="messageText" placeholder="Escribe un mensaje..." class="input"></ion-input>
-
-    <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="camera-outline"></ion-icon>
-      </ion-button>
-      <ion-button>
-        <ion-icon name="mic-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="sendMessage()">
-        <ion-icon name="send-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+      
+      <ion-input [(ngModel)]="messageText" placeholder="Escribe un mensaje..." class="message-input"></ion-input>
+      
+      <div class="action-buttons">
+        <!-- Botón de cámara -->
+        <ion-button fill="clear" class="camera-button">
+          <ion-icon name="camera" class="action-icon"></ion-icon>
+        </ion-button>
+        
+        <!-- Nuevo botón de audio -->
+        <ion-button fill="clear" class="audio-button">
+          <ion-icon name="mic" class="action-icon"></ion-icon>
+        </ion-button>
+        
+        <!-- Botón de enviar -->
+        <ion-button fill="clear" class="send-button" (click)="sendMessage()" [disabled]="!messageText">
+          <ion-icon name="send" class="send-icon"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-footer>

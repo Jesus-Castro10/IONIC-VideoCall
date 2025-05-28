@@ -1,19 +1,27 @@
-<ion-footer>
-<div class="bottom-bar">
-  <ion-button class="action-button" >
-    <ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon>
-  </ion-button>
+<ion-footer class="modern-footer">
+  <div class="footer-container">
+    <!-- Botón Añadir Contacto -->
+    <ion-button class="footer-button" fill="clear" (click)="goToAddContact()">
+      <div class="button-content">
+        <ion-icon name="person-add" class="button-icon"></ion-icon>
+        <span class="button-label">Add</span>
+      </div>
+    </ion-button>
 
-  <ion-button class="action-button" (click)="goToAddContact()">
-    <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
-  </ion-button>
+    <!-- Botón Perfil -->
+    <ion-button class="footer-button" fill="clear" (click)="goProfile()">
+      <div class="button-content">
+        <ion-icon name="person" class="button-icon"></ion-icon>
+        <span class="button-label">Profile</span>
+      </div>
+    </ion-button>
 
-  <ion-button class="action-button" (click)="goProfile()">
-    <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
-  </ion-button>
-
-  <ion-button class="action-button logout" (click)="logout()">
-    <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
-  </ion-button>
-</div>
+    <!-- Botón Logout -->
+    <ion-button class="footer-button logout" fill="clear" (click)="logout()">
+      <div class="button-content">
+        <ion-icon name="exit" class="button-icon"></ion-icon>
+        <span class="button-label">Exit</span>
+      </div>
+    </ion-button>
+  </div>
 </ion-footer>

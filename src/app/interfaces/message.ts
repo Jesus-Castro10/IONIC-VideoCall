@@ -1,6 +1,6 @@
 export interface Message {
     senderId: string;
-    type: 'text' | 'image' | 'audio' | 'location' | 'file';
+    type: 'text' | 'image' | 'audio' | 'location' | 'file' | 'video';
     content: string; // texto, URL o geohash
     timestamp: any;
     filename?: string;

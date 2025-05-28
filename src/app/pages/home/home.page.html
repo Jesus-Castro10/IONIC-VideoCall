@@ -1,23 +1,33 @@
 <app-header [title]="'Contacts'"></app-header>
-<ion-content class="contact-list-page">
+
+<ion-content class="modern-contact-list">
   @if (contacts) {
-    <ion-list>
-      @for (contact of contacts; track contact.uid) {
-        <ion-item lines="full" [button]="true" detail="false" (click)="goChat(contact.user.uid); $event.stopPropagation()">
-          <ion-label>
-            <h2>{{ contact.user.name }} {{ contact.user.lastname }}</h2>
-            <p>{{ contact.user.phone }}</p>
-          </ion-label>
-          <ion-button class="call-button" fill="solid" color="success" slot="end">
-            <ion-icon name="videocam-outline"></ion-icon>
-          </ion-button>
-        </ion-item>
-      }
-    </ion-list>
+    <div class="contacts-container">
+      <ion-searchbar class="modern-search" placeholder="Search contacts..." animated debounce="300" (ionInput)="onSearchChange($event)"
+      [value]="searchTerm"></ion-searchbar>
+      
+      <ion-list lines="none" class="elegant-list">
+        @for (contact of filteredContacts; track contact.uid) {
+          <ion-item class="contact-item" [button]="true" detail="false" (click)="goChat(contact.user.uid); $event.stopPropagation()">
+            <ion-avatar slot="start" class="contact-avatar">
+              {{ contact.user.name.charAt(0) }}{{ contact.user.lastname.charAt(0) }}
+            </ion-avatar>
+            
+            <ion-label class="contact-info">
+              <h2 class="contact-name">{{ contact.user.name }} {{ contact.user.lastname }}</h2>
+              <p class="contact-phone">{{ contact.user.phone }}</p>
+            </ion-label>            
+          </ion-item>
+        }
+      </ion-list>
+    </div>
   } @else {
-    <div class="no-contacts">
-      There are no contact
+    <div class="empty-state">
+      <ion-icon name="people-outline" class="empty-icon"></ion-icon>
+      <h3>No contacts yet</h3>
+      <p>Your contacts will appear here</p>
     </div>
   }
 </ion-content>
+
 <app-footer></app-footer>

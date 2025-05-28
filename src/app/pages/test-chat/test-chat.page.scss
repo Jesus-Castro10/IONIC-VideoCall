@@ -1,210 +1,237 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
-
-:host {
-  font-family: 'Rubik', sans-serif;
-}
-
-.chat-content {
-  --background: linear-gradient(to bottom right, #f2f6fc, #e6ecf4);
-  background-size: cover;
-  --padding-bottom: 0px !important;
-}
-
-.chat-container {
-  padding: 12px 14px 80px 14px; // espacio para que el footer no tape contenido
-  display: flex;
-  flex-direction: column;
-}
-
-.date-label {
-  text-align: center;
-  font-size: 12px;
-  color: #8e8e93;
-  margin: 10px 0;
-}
-
-
-
-.bubble {
-  background-color: #ffffff;
-  padding: 10px 16px;
-  margin: 4px 0;
-  border-radius: 18px;
-  max-width: 80%;
-  font-size: 14px;
-  color: #1f1f1f;
-  word-wrap: break-word;
-  line-height: 1.4;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
-  animation: fadeInUp 0.3s ease;
-}
-
-.message.own .bubble {
-  background-color: #4A90E2;
-  color: #fff;
-  border-bottom-right-radius: 6px;
-}
-
-.message.received .bubble {
-  background-color: #ffffff;
-  border-bottom-left-radius: 6px;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.avatar-msg {
-  margin-right: 8px;
-}
-
-.avatar-img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-top: auto;
-}
-
-// ion-toolbar.chat-footer,
-// ion-header ion-toolbar {
-//   --background: transparent;
-//   box-shadow: none !important;
-//   border: none;
-// }
-
-ion-toolbar.chat-footer {
-  padding: 8px 10px;
-  display: flex;
-  align-items: center;
-  backdrop-filter: blur(10px);
-}
-
-.input {
-  flex: 1;
-  margin-left: 8px;
-  border-radius: 16px;
-  padding: 4px 10px;
-  background: white;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  font-size: 14px;
-  --placeholder-color: #aaa;
-}
-
-ion-label p {
-  font-size: 13px;
-  color: #8e8e93;
-  margin: 0;
-}
-
-/* Variables de color para el footer */
-:root {
-  --input-bg: #F5F7FB; /* Fondo claro del input */
-  --input-border: #E1E5EB; /* Borde sutil */
-  --input-focus-border: #4A6BFF; /* Borde al enfocar */
-  --input-text: #2D3748; /* Color de texto */
-  --input-placeholder: #A0AEC0; /* Color del placeholder */
-}
-
-/* FOOTER - VERSIÓN MEJORADA */
-.chat-footer {
-  --background: #fff;
-  padding: 6px 10px;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
-  border-top: none;
-
-  /* CONTENEDOR PRINCIPAL */
+/* Estilos para el header del chat */
+.chat-header {
   ion-toolbar {
-    --min-height: 56px;
-    display: flex;
-    align-items: center;
-  }
-
-  /* INPUT MEJORADO */
-  .input {
-    --background: #f8fafc;
-    --color: #1e293b;
-    --placeholder-color: #94a3b8;
-    --padding-start: 18px;
-    --padding-end: 18px;
-    --border-radius: 28px;
-    font-size: 15px;
-    font-weight: 500;
-    margin: 0 10px;
-    min-height: 44px;
-    border: 1.5px solid #e2e8f0;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 
-      0 1px 2px rgba(0, 0, 0, 0.03),
-      inset 0 1px 2px rgba(255, 255, 255, 0.8);
-
-    &:focus-within {
-      border-color: #4A6BFF;
-      background: #fff;
-      box-shadow: 
-        0 0 0 3px rgba(74, 107, 255, 0.15),
-        inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    --background: linear-gradient(135deg, #6e8efb, #a777e3);
+    --color: white;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    
+    .header-user {
+      display: flex;
+      align-items: center;
+      max-width: 60%;
+      
+      .back-button {
+        --color: white;
+        --icon-font-size: 24px;
+        margin-right: 8px;
+      }
+      
+      .header-avatar {
+        width: 36px;
+        height: 36px;
+        margin-right: 12px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+      
+      .user-info {
+        .user-name {
+          font-size: 1.1rem;
+          font-weight: 600;
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        
+        .user-status {
+          font-size: 0.8rem;
+          opacity: 0.8;
+          margin: 0;
+        }
+      }
     }
-  }
-
-  /* BOTONES */
-  ion-button {
-    --color: #64748b;
-    --padding-start: 6px;
-    --padding-end: 6px;
-    margin: 0 2px;
-    transition: transform 0.2s ease;
-
-    ion-icon {
-      font-size: 22px;
+    
+    .header-actions {
+      .action-button {
+        --padding-start: 6px;
+        --padding-end: 6px;
+        
+        .action-icon {
+          font-size: 1.4rem;
+          color: white;
+        }
+      }
     }
-
-    /* BOTÓN ACTIVO/PRIMARIO */
-    &:last-child {
-      --color: #4A6BFF;
-      --background-hover: rgba(74, 107, 255, 0.08);
-    }
-
-    &:active {
-      transform: scale(0.92);
-    }
-  }
-
-  /* BOTÓN ADJUNTAR (izquierda) */
-  ion-buttons[slot="start"] {
-    margin-right: 4px;
-    ion-button {
-      --color: #4A6BFF;
-    }
-  }
-
-  /* GRUPO BOTONES DERECHA */
-  ion-buttons[slot="end"] {
-    margin-left: 4px;
-    display: flex;
-    gap: 2px;
   }
 }
 
-@media (max-width: 360px) {
-  .chat-footer {
-    padding: 6px 8px;
+/* Estilos para el contenido del chat */
+.chat-content {
+  --background: #f5f5f5;
+  
+  .chat-container {
+    padding: 12px 16px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .date-divider {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
     
-    .input {
-      --padding-start: 14px;
-      --padding-end: 14px;
-      margin: 0 6px;
+    .date-label {
+      background: #e0e0e0;
+      color: #666;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 12px;
+    }
+  }
+  
+  .message-row {
+    display: flex;
+    margin-bottom: 12px;
+    
+    &.mine {
+      justify-content: flex-end;
+      
+      .message-bubbles {
+        align-items: flex-end;
+      }
+      
+      .message-time {
+        text-align: right;
+      }
     }
     
-    ion-button {
-      --padding-start: 4px;
-      --padding-end: 4px;
+    &.theirs {
+      .message-avatar {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+        align-self: flex-end;
+      }
+    }
+    
+    .message-content {
+      flex: 1;
+    }
+    
+    .message-bubbles {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      position: relative;
+      
+      &.mine {
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        color: white;
+        border-bottom-right-radius: 4px;
+      }
+      
+      &.theirs {
+        background: white;
+        color: #333;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border-bottom-left-radius: 4px;
+      }
+    }
+    
+    .message-time {
+      font-size: 0.7rem;
+      color: #999;
+      margin-top: 4px;
+      padding: 0 8px;
+    }
+  }
+}
+
+/* Estilos para el footer del chat */
+.chat-footer {
+  ion-toolbar {
+    --background: #f5f5f5;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    --border-width: 0;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+    
+    .input-container {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 24px;
+      padding: 4px 12px;
+      margin: 0 8px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+      
+      .attach-button {
+        --padding-start: 0;
+        --padding-end: 0;
+        margin-right: 8px;
+        
+        .attach-icon {
+          font-size: 1.6rem;
+          color: #6e8efb;
+        }
+      }
+      
+      .message-input {
+        --padding-top: 10px;
+        --padding-bottom: 10px;
+        --padding-start: 8px;
+        --padding-end: 8px;
+        font-size: 0.95rem;
+        flex: 1;
+      }
+      
+      .action-buttons {
+        display: flex;
+        margin-left: 8px;
+
+        .audio-button {
+          --padding-start: 0;
+          --padding-end: 0;
+          margin-right: 4px;
+          
+          .action-icon {
+            font-size: 1.4rem;
+            color: #6e8efb;
+          }
+          
+          &:active {
+            .action-icon {
+              color: #a777e3;
+              transform: scale(1.1);
+            }
+          }
+        }
+        
+        .camera-button {
+          --padding-start: 0;
+          --padding-end: 0;
+          margin-right: 4px;
+          
+          
+          .action-icon {
+            font-size: 1.4rem;
+            color: #6e8efb;
+          }
+        }
+        
+        .send-button {
+          --padding-start: 0;
+          --padding-end: 0;
+          
+          .send-icon {
+            font-size: 1.6rem;
+            color: #6e8efb;
+          }
+          
+          &[disabled] {
+            opacity: 0.4;
+          }
+        }
+      }
     }
   }
 }

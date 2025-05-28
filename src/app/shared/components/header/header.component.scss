@@ -1,10 +1,74 @@
-.header-gradient {
-  --background: linear-gradient(135deg, #ffffff 0%, #2575fc 100%);
+.enhanced-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #6e8efb, #a777e3); /* Mantenemos tu gradient original */
+    --color: white;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    
+    .enhanced-back {
+      --color: white;
+      --icon-font-size: 26px;
+      margin-right: 10px;
+      transition: transform 0.2s ease;
+      
+      &:active {
+        transform: translateX(-2px);
+      }
+    }
+    
+    .creative-center-title {
+      padding: 0 20px;
+      position: relative;
+      
+      .title-3d {
+        font-family: 'Montserrat', sans-serif; /* Tipografía moderna */
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: 0.5px;
+        text-align: center;
+        display: block;
+        width: 100%;
+        color: white;
+        text-shadow: 
+          0 2px 4px rgba(0,0,0,0.1),
+          0 4px 8px rgba(0,0,0,0.1); /* Efecto 3D sutil */
+        position: relative;
+        animation: textGlow 2s infinite alternate;
+      }
+    }
+    
+    .floating-home {
+      --background: rgba(255,255,255,0.15);
+      --border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      backdrop-filter: blur(4px);
+      transition: all 0.3s ease;
+      
+      .home-3d {
+        font-size: 20px;
+        color: white;
+        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        transition: transform 0.3s ease;
+      }
+      
+      &:active {
+        --background: rgba(255,255,255,0.25);
+        
+        .home-3d {
+          transform: scale(0.9);
+        }
+      }
+    }
+  }
 }
 
-.header-title {
-  color: blue;
-  font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.5px;
+/* Efecto sutil de brillo animado */
+@keyframes textGlow {
+  from {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  to {
+    text-shadow: 0 2px 12px rgba(255,255,255,0.3);
+  }
 }

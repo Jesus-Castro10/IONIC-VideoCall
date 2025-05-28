@@ -34,22 +34,6 @@ export class CallService {
     }
   }
 
-  // async joinCall(phone: string) {
-  //   const userRecivier = await this.userService.findUserByPhoneNumber(phone);
-  //   const uidCurrent = await this.authService.getCurrentUser()
-  //   const userSend = await this.userService.get(uidCurrent?.uid)
-  //   // console.log("userToCall", JSON.stringify(userRecivier));
-
-  //   if (!userSend || !userRecivier) {
-  //     await this.toastService.presentToast("Error to init call",'danger')
-  //   }
-  //   const meetingId = this.generateId();
-  //   this.launchCall(meetingId,userSend?.name).then(() => {
-  //     // @ts-ignore
-  //     this.notificationService.sendNotification(meetingId,userSend,userRecivier)
-  //   });
-  // }
-
   async joinCall(phone: string) {
     const userRecivier = await this.userService.findUserByPhoneNumber(phone);
     const uidCurrent = await this.authService.getCurrentUser();
@@ -63,18 +47,19 @@ export class CallService {
     const meetingId = this.generateId();
 
     this.launchCall(meetingId, userSend.name).then(() => {
-      this.notificationService.sendNotification('incoming_call', {
-        meetingId,
-        userSend: {
-          uid: userSend.uid,
-          name: userSend.name,
-        },
-        userReceiver: {
-          uid: userRecivier.uid,
-          name: userRecivier.name,
-          token: userRecivier.token,
-        },
-      });
+      console.log("Ya llame")
+      // this.notificationService.sendNotification('incoming_call', {
+      //   meetingId,
+      //   userSend: {
+      //     uid: userSend.uid,
+      //     name: userSend.name,
+      //   },
+      //   userReceiver: {
+      //     uid: userRecivier.uid,
+      //     name: userRecivier.name,
+      //     token: userRecivier.token,
+      //   },
+      // });
     });
   }
 
@@ -88,7 +73,8 @@ export class CallService {
   }
 
   async launchCall(meeting: string, name: string | null | undefined) {
-    if (Capacitor.getPlatform() !== 'android') {
+    console.log("launc")
+    if (Capacitor.getPlatform() === 'web') {
       console.warn('This function available Android.');
       return;
     }

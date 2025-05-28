@@ -19,7 +19,9 @@ import {ContactDto} from "../../interfaces/contact-dto";
 export class HomePage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
   contacts: ContactDto[] = [];
+  filteredContacts: ContactDto[] = [];
   uid!: string;
+  searchTerm: string = '';
 
   constructor(
     private contactService: ContactService,
@@ -36,6 +38,7 @@ export class HomePage implements OnInit {
   async ngOnInit() {
     this.contactService.contacts$.subscribe(contacts => {
       this.contacts = contacts;
+      this.filterContacts();
     });
     await this.loadContacts();
   }
@@ -56,5 +59,17 @@ export class HomePage implements OnInit {
 
   async goChat(id: any) {
     await this.router.navigate(['/chat/' + id]);
+  }
+
+  filterContacts() {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredContacts = this.contacts.filter(contact =>
+      contact.user.name.toLowerCase().includes(term)
+    );
+  }
+
+  onSearchChange(event: any) {
+    this.searchTerm = event.detail.value;
+    this.filterContacts();
   }
 }

@@ -1,72 +1,140 @@
-<ion-header>
+<ion-header class="chat-header">
   <ion-toolbar>
-    <ion-title>Chat</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    
+    <ion-title class="chat-title">
+      <div class="header-user-info">
+        <h2>{{ otherUser?.name || 'Usuario' }}</h2>
+      </div>
+    </ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="startVoiceCall()">
+        <ion-icon name="call" class="header-icon"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="showUserInfo()">
+        <ion-icon name="information-circle" class="header-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div *ngIf="messages$ | async as messages">
-    <div
-      *ngFor="let msg of messages"
-      class="message"
-      [class.mine]="msg.senderId === currentUserId"
-    >
-      <!-- Texto plano -->
-      <div *ngIf="msg.type === 'text'" class="bubble">{{ msg.content }}</div>
-
-      <!-- Audio -->
-      <div *ngIf="msg.type === 'audio'" class="bubble audio-msg">
-        <ion-icon name="mic"></ion-icon>
-        <audio [src]="msg.content" controls></audio>
-      </div>
-
-      <!-- Archivo -->
-      <div *ngIf="msg.type === 'file'" class="bubble file-msg">
-        <ion-icon name="document"></ion-icon>
-        <a [href]="msg.content" target="_blank">{{ msg.filename || 'Archivo adjunto' }}</a>
-      </div>
-
-      <!-- Imagen o video -->
-      <div *ngIf="msg.type === 'image'" class="bubble media-msg">
-        <img [src]="msg.content" alt="imagen enviada" />
-      </div>
+<ion-content class="chat-content">
+  <div *ngIf="messages$ | async as messages" class="chat-container">
+    <div *ngFor="let msg of messages" class="message-row" [class.mine]="msg.senderId === currentUserId">
       
-      <div *ngIf="msg.type === 'video'" class="bubble media-msg">
-        <video [src]="msg.content" controls></video>
-      </div>
+      <!-- Avatar para mensajes recibidos -->
+      <ion-avatar *ngIf="msg.senderId !== currentUserId" class="message-avatar">
+        <img [src]="getUserAvatar(msg.senderId)" />
+      </ion-avatar>
 
-      <!-- Localización -->
-      <div *ngIf="msg.type === 'location'" class="bubble location-msg">
-        <ion-icon name="location"></ion-icon>
-        <ion-button expand="full" (click)="openMap(msg.content)">
-          Ver ubicación
-        </ion-button>
+      <div class="message-content">
+        <div class="message-bubbles">
+          <!-- Mensaje de texto -->
+          <div *ngIf="msg.type === 'text'" class="bubble">{{ msg.content }}</div>
+
+          <!-- Mensaje de audio -->
+          <div *ngIf="msg.type === 'audio'" class="bubble audio-bubble">
+            <div class="audio-container">
+              <ion-icon name="mic" class="audio-icon"></ion-icon>
+              <audio controls>
+                <source [src]="msg.content" type="audio/mpeg">
+              </audio>
+              <div class="audio-wave"></div>
+            </div>
+          </div>
+
+          <!-- Archivo adjunto -->
+          <div *ngIf="msg.type === 'file'" class="bubble file-bubble">
+            <ion-icon name="document" class="file-icon"></ion-icon>
+            <a [href]="msg.content" target="_blank" class="file-link">
+              {{ msg.filename || 'Archivo adjunto' }}
+            </a>
+          </div>
+
+          <!-- Imagen -->
+          <div *ngIf="msg.type === 'image'" class="bubble media-bubble">
+            <img [src]="msg.content" alt="Imagen enviada" class="media-img" (click)="openImageViewer(msg.content)"/>
+          </div>
+          
+          <!-- Video -->
+          <div *ngIf="msg.type === 'video'" class="bubble media-bubble">
+            <video controls class="media-video">
+              <source [src]="msg.content" type="video/mp4">
+            </video>
+          </div>
+
+          <!-- Ubicación -->
+          <div *ngIf="msg.type === 'location'" class="bubble location-bubble">
+            <ion-icon name="location" class="location-icon"></ion-icon>
+            <ion-button fill="clear" (click)="openMap(msg.content)" class="location-btn">
+              Ver ubicación
+            </ion-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="chat-footer">
   <ion-toolbar>
-    <ion-item lines="none">
+    <div class="input-container">
+      <!-- Botón para opciones de adjuntos -->
+      <ion-button fill="clear" class="attach-button" (click)="toggleAttachmentOptions()">
+        <ion-icon name="add" class="attach-icon"></ion-icon>
+      </ion-button>
       
-      <ion-input
-        [(ngModel)]="newMessage"
-        placeholder="Escribe un mensaje..."
+      <!-- Input de mensaje -->
+      <ion-input 
+        [(ngModel)]="newMessage" 
+        placeholder="Escribe un mensaje..." 
+        class="message-input"
+        (keyup.enter)="sendMessage()"
       ></ion-input>
-      <ion-button
-        slot="end"
-        (click)="sendMessage()"
-        [disabled]="!newMessage.trim()"
-        >Enviar</ion-button
-      >
-    </ion-item>
-    <ion-buttons class="attachment-options">
-      <ion-button (click)="toggleRecording()"><ion-icon name="mic"></ion-icon></ion-button>
-      <ion-button (click)="sendPicture()"><ion-icon name="image"></ion-icon></ion-button>
-      <ion-button (click)="selectFile()"><ion-icon name="document"></ion-icon></ion-button>
-      <ion-button><ion-icon name="videocam"></ion-icon></ion-button>
-      <ion-button (click)="getLocation()"><ion-icon name="location"></ion-icon></ion-button>
-    </ion-buttons>
+      
+      <!-- Botón de enviar/grabar -->
+      <div class="action-buttons">
+        <ion-button 
+          *ngIf="!isRecording" 
+          fill="clear" 
+          class="send-button" 
+          (click)="sendMessage()" 
+          [disabled]="!newMessage.trim()"
+        >
+          <ion-icon name="send" class="send-icon"></ion-icon>
+        </ion-button>
+        
+        <ion-button 
+          *ngIf="isRecording" 
+          fill="clear" 
+          class="stop-button" 
+          (click)="toggleRecording()"
+        >
+          <ion-icon name="stop" class="stop-icon"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Opciones de adjuntos -->
+    <div class="attachment-options" *ngIf="showAttachments">
+      <ion-button fill="clear" (click)="toggleRecording()">
+        <ion-icon name="mic" class="option-icon"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="sendPicture()">
+        <ion-icon name="image" class="option-icon"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="selectFile()">
+        <ion-icon name="document" class="option-icon"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear">
+        <ion-icon name="videocam" class="option-icon"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="getLocation()">
+        <ion-icon name="location" class="option-icon"></ion-icon>
+      </ion-button>
+    </div>
   </ion-toolbar>
 </ion-footer>

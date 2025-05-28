@@ -1,14 +1,19 @@
-<ion-header [translucent]="true" class="header-gradient">
+<ion-header [translucent]="true" class="enhanced-header">
   <ion-toolbar>
     <ion-buttons slot="start" *ngIf="isLoggedIn">
-      <ion-back-button default-href="/home"></ion-back-button>
+      <ion-back-button default-href="/home" class="enhanced-back" 
+        text="" icon="arrow-back" mode="ios">
+      </ion-back-button>
     </ion-buttons>
-    <ion-title class="header-title">{{ title }}</ion-title>
+    
+    <ion-title class="creative-center-title">
+      <span class="title-3d">{{ title }}</span>
+    </ion-title>
+    
     <ion-buttons slot="end" *ngIf="isLoggedIn && !isHome">
-      <ion-button (click)="goHome()">
-        <ion-icon name="home"></ion-icon>
+      <ion-button (click)="goHome()" class="floating-home">
+        <ion-icon name="home-sharp" class="home-3d"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-

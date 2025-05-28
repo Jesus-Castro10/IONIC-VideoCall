@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { Message } from 'src/app/interfaces/message';
 import { ActivatedRoute } from '@angular/router';
@@ -13,27 +13,27 @@ import { User } from 'src/app/interfaces/user';
 import { UserService } from 'src/app/core/services/user.service';
 import { LocationComponent } from 'src/app/shared/components/location/location.component';
 import { ModalController } from '@ionic/angular';
+import { CallService } from 'src/app/core/services/call.service';
 
 type typefile = 'text' | 'image' | 'audio' | 'location' | 'file';
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
-  standalone: false,
+  standalone: false
 })
 export class ChatPage implements OnInit {
-  messages$: Observable<any[]> = of([]);
+  messages$: Observable<Message[]> = of([]);
   newMessage: string = '';
-
   currentUserId!: string;
   otherUserId!: string;
   currentUser?: User;
   otherUser?: User;
-
   chatId: string = '';
-
   isRecording = false;
   audioBlobUrl: string | null = null;
+  showAttachments = false;
 
   constructor(
     private chatService: ChatService,
@@ -46,34 +46,46 @@ export class ChatPage implements OnInit {
     private notiSrv: NotificationService,
     private userSrv: UserService,
     private modalCtrl: ModalController,
+    private callSrv: CallService
   ) {}
 
   async ngOnInit() {
     this.otherUserId = this.route.snapshot.paramMap.get('id')!;
     this.currentUserId = localStorage.getItem('user_id') || '';
+    
+    // Obtener información de los usuarios
     this.currentUser = await this.userSrv.get(this.currentUserId);
     this.otherUser = await this.userSrv.get(this.otherUserId);
 
+    // Crear o obtener el chat
     this.chatService
       .createOrGetChat(this.currentUserId, this.otherUserId)
       .then((chatId) => {
         this.chatId = chatId;
-        this.messages$ = this.chatService.listenToMessages(chatId);
+        this.messages$ = this.chatService.listenToMessages(chatId).pipe(
+  map(messages => messages.map(msg => ({
+    ...msg,
+    timestamp: this.convertTimestamp(msg.timestamp)
+  })))
+);
       });
   }
 
+  // Métodos existentes con pequeñas adaptaciones para el diseño
   sendMessage() {
+    if (!this.newMessage.trim()) return;
+
     const message: Message = {
       senderId: this.currentUserId,
       type: 'text',
       content: this.newMessage,
-      timestamp: null,
+      timestamp: new Date(),
     };
 
     this.chatService.sendMessage(this.chatId, message).then(() => {
       this.sendNotification();
+      this.newMessage = '';
     });
-    this.newMessage = '';
   }
 
   sendOtherMessage(file: any, type: typefile) {
@@ -81,67 +93,46 @@ export class ChatPage implements OnInit {
       senderId: this.currentUserId,
       type: type,
       content: file,
-      timestamp: null,
+      timestamp: new Date(),
     };
 
     this.chatService.sendMessage(this.chatId, message);
+    this.sendNotification();
+    this.showAttachments = false;
   }
 
   async selectFile() {
     const file = await this.fileService.pickFile();
     if (file) {
-      console.log('JITCALL : Archivo seleccionado:', JSON.stringify(file));
-      console.log('JITCALL : seleccionado:', JSON.stringify(file.blob));
       this.bucketSrv
         .uploadFile(file.blob || new Blob(), `${this.currentUserId}`)
         .then((url) => {
-          console.log('JITCALL : URL del archivo subido:', url);
           this.sendOtherMessage(url, 'file');
         })
-        .catch((error) => {
-          console.error('Error subiendo archivo:', error);
-        });
-    } else {
-      console.log('No se seleccionó archivo');
+        .catch(console.error);
     }
   }
 
   async getLocation() {
     try {
-      this.geoService.getCurrentLocation().then((location) => {
-        this.sendOtherMessage(location, 'location');
-      });
-      console.log('Ubicación actual:', location);
+      const location = await this.geoService.getCurrentLocation();
+      this.sendOtherMessage(location, 'location');
     } catch (error) {
       console.error('Error obteniendo ubicación:', error);
     }
   }
 
   sendPicture() {
-    this.cameraSrv
-      .pickPicture()
+    this.cameraSrv.pickPicture()
       .then((blob) => {
-        const message: Message = {
-          senderId: this.currentUserId,
-          type: 'image',
-          content: '',
-          timestamp: null,
-        };
-
-        this.chatService.sendMessage(this.chatId, message);
         this.bucketSrv
           .uploadImage(blob, `${this.currentUserId}`)
           .then((url) => {
-            console.log('JITCALL : URL de la imagen subida:', url);
             this.sendOtherMessage(url, 'image');
           })
-          .catch((error) => {
-            console.error('Error subiendo imagen:', error);
-          });
+          .catch(console.error);
       })
-      .catch((error) => {
-        console.error('Error al tomar la foto:', error);
-      });
+      .catch(console.error);
   }
 
   async toggleRecording() {
@@ -153,20 +144,16 @@ export class ChatPage implements OnInit {
       } else {
         const { recordDataBase64, mimeType } = await this.voiceSrv.stopRecording();
         this.isRecording = false;
-        console.log('JITCALL : Grabación detenida:', recordDataBase64);
-        console.log('JITCALL : Tipo de audio:', mimeType);
         const blob = this.base64ToBlob(recordDataBase64, mimeType);
         this.audioBlobUrl = URL.createObjectURL(blob);
+        
         if (blob) {
           this.bucketSrv
             .uploadAudio(blob, `${this.currentUserId} ${Date.now()}.aac`)
             .then((url) => {
-              console.log('JITCALL : URL del audio subido:', url);
               this.sendOtherMessage(url, 'audio');
             })
-            .catch((error) => {
-              console.error('Error subiendo audio:', error);
-            });
+            .catch(console.error);
         }
       }
     } catch (error) {
@@ -189,16 +176,17 @@ export class ChatPage implements OnInit {
   }
 
   sendNotification() {
-    console.log('JITCALL : Enviando notificación');
+    if (!this.otherUser) return;
+    
     this.notiSrv.sendNotification('message', {
       userSend: {
         uid: this.currentUserId,
         name: this.currentUser?.name || '',
       },
       userReceiver: {
-        uid: this.otherUser?.uid || '',
-        name: this.otherUser?.name || '',
-        token: this.otherUser?.token || '',
+        uid: this.otherUser.uid,
+        name: this.otherUser.name,
+        token: this.otherUser.token || '',
       },
     });
   }
@@ -206,10 +194,41 @@ export class ChatPage implements OnInit {
   async openMap(position: any) {
     const modal = await this.modalCtrl.create({
       component: LocationComponent,
-      componentProps: {
-        position: position,
-      },
+      componentProps: { position },
     });
-    modal.present();
+    await modal.present();
   }
+
+  toggleAttachmentOptions() {
+    this.showAttachments = !this.showAttachments;
+  }
+
+  getUserAvatar(userId: string): string {
+    return userId === this.currentUserId 
+      ? this.currentUser?.image || 'assets/default-avatar.png'
+      : this.otherUser?.image || 'assets/default-avatar.png';
+  }
+
+  // Nuevos métodos para el diseño
+  startVoiceCall() {
+    console.log('Iniciar llamada de voz');
+    this.callSrv.joinCall(this.otherUser?.phone||"")
+  }
+
+  showUserInfo() {
+    console.log('Mostrar información del usuario');
+    // Implementar lógica para mostrar info
+  }
+
+  async openImageViewer(imageUrl: string) {
+    // Implementar visualizador de imágenes
+    console.log('Abrir imagen:', imageUrl);
+  }
+
+  private convertTimestamp(timestamp: any): Date {
+  if (timestamp?.toDate) return timestamp.toDate();
+  if (timestamp?.seconds) return new Date(timestamp.seconds * 1000);
+  if (timestamp instanceof Date) return timestamp;
+  return new Date();
+}
 }
